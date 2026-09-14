@@ -1,0 +1,359 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum SocialPlatform {
+  FACEBOOK
+  INSTAGRAM
+  TWITTER
+  LINKEDIN
+}
+
+enum ContentStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum UserRole {
+  ADMIN
+}
+
+// ─────────────────────────────────────────────
+// ADMIN USER
+// ─────────────────────────────────────────────
+
+model Admin {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(ADMIN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// SITE SETTINGS
+// ─────────────────────────────────────────────
+
+model SiteSettings {
+  id                        String  @id @default(uuid()) @db.Uuid
+  hospitalName              String
+  logo                      String?
+  phone                     String
+  email                     String
+  address                   String
+  sundayVisitingHours       String?
+  mondayFridayVisitingHours String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  socialMedia SocialMedia[]
+}
+
+// ─────────────────────────────────────────────
+// SOCIAL MEDIA
+// ─────────────────────────────────────────────
+
+model SocialMedia {
+  id       String         @id @default(uuid()) @db.Uuid
+  platform SocialPlatform
+  url      String
+  isActive Boolean        @default(true)
+
+  siteSettingsId String       @db.Uuid
+  siteSettings   SiteSettings @relation(fields: [siteSettingsId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([siteSettingsId, platform])
+}
+
+// ─────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────
+
+model NavigationItem {
+  id        String  @id @default(uuid()) @db.Uuid
+  label     String
+  url       String
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  dropdownItems DropdownItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DropdownItem {
+  id        String  @id @default(uuid()) @db.Uuid
+  label     String
+  url       String
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  navigationItemId String         @db.Uuid
+  navigationItem   NavigationItem @relation(fields: [navigationItemId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// HERO
+// ─────────────────────────────────────────────
+
+model HeroSection {
+  id                         String  @id @default(uuid()) @db.Uuid
+  smallTitle                 String?
+  title                      String
+  description                String
+  buttonText                 String
+  buttonUrl                  String
+  backgroundImage            String?
+  secondaryImage             String?
+  informationCardTitle       String?
+  informationCardDescription String?
+  isActive                   Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// HELP SECTION
+// ─────────────────────────────────────────────
+
+model HelpSection {
+  id       String  @id @default(uuid()) @db.Uuid
+  title    String
+  isActive Boolean @default(true)
+
+  cards HelpCard[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HelpCard {
+  id          String  @id @default(uuid()) @db.Uuid
+  icon        String
+  title       String
+  description String
+  buttonText  String
+  buttonUrl   String
+  color       String
+  sortOrder   Int     @default(0)
+  isActive    Boolean @default(true)
+
+  helpSectionId String      @db.Uuid
+  helpSection   HelpSection @relation(fields: [helpSectionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// ABOUT
+// ─────────────────────────────────────────────
+
+model AboutSection {
+  id          String  @id @default(uuid()) @db.Uuid
+  smallTitle  String?
+  title       String
+  description String
+  image       String?
+  buttonText  String
+  buttonUrl   String
+
+  informationImage    String?
+  informationTitle    String?
+  informationSubtitle String?
+  informationLogo     String?
+  rating              Decimal? @db.Decimal(2, 1)
+  badgeText           String?
+  badgeValue          String?
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// SERVICES
+// ─────────────────────────────────────────────
+
+model Service {
+  id          String  @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  image       String?
+  category    String?
+  linkText    String?
+  linkUrl     String?
+  color       String
+  isActive    Boolean @default(true)
+  sortOrder   Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// TESTIMONIALS
+// ─────────────────────────────────────────────
+
+model Testimonial {
+  id        String  @id @default(uuid()) @db.Uuid
+  content   String
+  name      String
+  role      String?
+  image     String?
+  rating    Int
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// WHY CHOOSE US
+// ─────────────────────────────────────────────
+
+model WhyChooseUsItem {
+  id          String  @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  icon        String
+  color       String
+  linkText    String?
+  linkUrl     String?
+  isActive    Boolean @default(true)
+  sortOrder   Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// LAB TESTS / OFFERS
+// ─────────────────────────────────────────────
+
+model LabTest {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  image       String?
+  discount    Decimal? @db.Decimal(5, 2)
+  price       Decimal  @db.Decimal(10, 2)
+  buttonText  String
+  buttonUrl   String
+  color       String
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// DOCTORS
+// ─────────────────────────────────────────────
+
+model Doctor {
+  id          String  @id @default(uuid()) @db.Uuid
+  name        String
+  specialty   String
+  description String?
+  image       String?
+  profileUrl  String?
+  category    String?
+  isActive    Boolean @default(true)
+  sortOrder   Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// ARTICLES
+// ─────────────────────────────────────────────
+
+model Article {
+  id          String    @id @default(uuid()) @db.Uuid
+  title       String
+  excerpt     String
+  content     String
+  image       String?
+  category    String?
+  author      String
+  publishedAt DateTime?
+  readTime    Int?
+  slug        String    @unique
+  isPublished Boolean   @default(false)
+  sortOrder   Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// FOOTER
+// ─────────────────────────────────────────────
+
+model FooterSettings {
+  id            String  @id @default(uuid()) @db.Uuid
+  logo          String?
+  location      String
+  visitingHours String?
+  phone         String
+
+  columns FooterColumn[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FooterColumn {
+  id        String  @id @default(uuid()) @db.Uuid
+  title     String
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  footerSettingsId String         @db.Uuid
+  footerSettings   FooterSettings @relation(fields: [footerSettingsId], references: [id], onDelete: Cascade)
+
+  links FooterLink[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FooterLink {
+  id        String  @id @default(uuid()) @db.Uuid
+  label     String
+  url       String
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  footerColumnId String       @db.Uuid
+  footerColumn   FooterColumn @relation(fields: [footerColumnId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

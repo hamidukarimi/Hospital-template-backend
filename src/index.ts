@@ -1,0 +1,43 @@
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import siteSettingsRoutes from "./routes/siteSettings.routes.js";
+import heroRoutes from "./routes/hero.routes.js";
+import helpRoutes from "./routes/help.routes.js";
+import aboutRoutes from "./routes/about.routes.js";
+import serviceRoutes from "./routes/service.routes.js";
+import testimonialRoutes from "./routes/testimonial.routes.js";
+import whyChooseUsRoutes from "./routes/whyChooseUs.routes.js";
+import labTestsRoutes from "./routes/labTests.routes.js";
+import doctorsRoutes from "./routes/doctors.routes.js";
+import articlesRoutes from "./routes/articles.routes.js";
+import footerRoutes from "./routes/footer.routes.js";
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/site-settings", siteSettingsRoutes);
+app.use("/api/hero", heroRoutes);
+app.use("/api/help", helpRoutes);
+app.use("/api/about", aboutRoutes);
+app.use("/api/services", serviceRoutes);
+app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/why-choose-us", whyChooseUsRoutes);
+app.use("/api/lab-tests", labTestsRoutes);
+app.use("/api/doctors", doctorsRoutes);
+app.use("/api/articles", articlesRoutes);
+app.use("/api/footer", footerRoutes);
+app.get("/", (_req, res) => {
+  res.json({
+    message: "Hospital Website API is running",
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
