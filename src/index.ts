@@ -27,16 +27,12 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-        return;
-      }
-
-      callback(new Error("Cors blocked"));
-    },
+    origin: [
+      "http://localhost:5173",
+      "https://hospital-template-iota.vercel.app",
+    ],
     credentials: true,
-  }),
+  })
 );
 app.use(express.json());
 app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
