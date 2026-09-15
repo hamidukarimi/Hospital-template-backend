@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { getWhyChooseUs } from "../services/whyChooseUs.service";
+import { getWhyChooseUs } from "../services/whyChooseUs.service.js";
 
 export const getWhyChooseUsController = async (
   _req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const items = await getWhyChooseUs();

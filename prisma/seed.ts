@@ -9,11 +9,19 @@ async function main() {
     where: {
       id: "00000000-0000-0000-0000-000000000001",
     },
-    update: {},
+    update: {
+      hospitalName: "Aura Hospital",
+      logo: "/uploads/site/logo.svg",
+      phone: "+93 700 000 000",
+      email: "info@aurahospital.com",
+      address: "Kabul, Afghanistan",
+      sundayVisitingHours: "09:00 AM - 05:00 PM",
+      mondayFridayVisitingHours: "08:00 AM - 06:00 PM",
+    },
     create: {
       id: "00000000-0000-0000-0000-000000000001",
       hospitalName: "Aura Hospital",
-      logo: "/images/logo-placeholder.png",
+      logo: "/uploads/site/logo.svg",
       phone: "+93 700 000 000",
       email: "info@aurahospital.com",
       address: "Kabul, Afghanistan",
@@ -53,7 +61,18 @@ async function main() {
     where: {
       id: "00000000-0000-0000-0000-000000000002",
     },
-    update: {},
+    update: {
+      smallTitle: "Your Health, Our Priority",
+      title: "Exceptional Healthcare For Everyone",
+      description:
+        "Providing trusted healthcare services with experienced doctors and modern facilities.",
+      buttonText: "Book an Appointment",
+      buttonUrl: "/contact",
+      backgroundImage: "/uploads/hero/hero.jpg",
+      secondaryImage: null,
+      informationCardTitle: "Emergency Care",
+      informationCardDescription: "Available 24/7",
+    },
     create: {
       id: "00000000-0000-0000-0000-000000000002",
       smallTitle: "Your Health, Our Priority",
@@ -62,7 +81,7 @@ async function main() {
         "Providing trusted healthcare services with experienced doctors and modern facilities.",
       buttonText: "Book an Appointment",
       buttonUrl: "/contact",
-      backgroundImage: "/images/hero-placeholder.jpg",
+      backgroundImage: "/uploads/hero/hero.jpg",
       secondaryImage: null,
       informationCardTitle: "Emergency Care",
       informationCardDescription: "Available 24/7",
@@ -146,20 +165,35 @@ async function main() {
     where: {
       id: "00000000-0000-0000-0000-000000000004",
     },
-    update: {},
+    update: {
+      smallTitle: "About Aura Hospital",
+      title: "Committed To Your Health And Wellbeing",
+      description:
+        "Aura Hospital provides trusted healthcare services with experienced professionals, modern facilities, and patient-centered care.",
+      image: "/uploads/about/about.png",
+      buttonText: "Learn More",
+      buttonUrl: "/about",
+      informationImage: "/uploads/about/about.png",
+      informationTitle: "Trusted Healthcare",
+      informationSubtitle: "Experienced medical professionals",
+      informationLogo: "/uploads/site/logo.svg",
+      rating: 4.9,
+      badgeText: "Patients Trust Us",
+      badgeValue: "10K+",
+    },
     create: {
       id: "00000000-0000-0000-0000-000000000004",
       smallTitle: "About Aura Hospital",
       title: "Committed To Your Health And Wellbeing",
       description:
         "Aura Hospital provides trusted healthcare services with experienced professionals, modern facilities, and patient-centered care.",
-      image: "/images/about-placeholder.jpg",
+      image: "/uploads/about/about.png",
       buttonText: "Learn More",
       buttonUrl: "/about",
-      informationImage: "/images/about-info-placeholder.jpg",
+      informationImage: "/uploads/about/about.png",
       informationTitle: "Trusted Healthcare",
       informationSubtitle: "Experienced medical professionals",
-      informationLogo: "/images/logo-placeholder.png",
+      informationLogo: "/uploads/site/logo.svg",
       rating: 4.9,
       badgeText: "Patients Trust Us",
       badgeValue: "10K+",
@@ -178,7 +212,7 @@ async function main() {
       title: "Emergency Care",
       description:
         "Fast and reliable emergency medical care when you need it most.",
-      image: "/images/service-emergency.jpg",
+      image: "/uploads/services/service-emergency.jpg",
       category: "Emergency",
       linkText: "Learn More",
       linkUrl: "/services/emergency",
@@ -190,7 +224,7 @@ async function main() {
       title: "Specialist Doctors",
       description:
         "Connect with experienced doctors across multiple specialties.",
-      image: "/images/service-doctors.jpg",
+      image: "/uploads/services/service-doctors.jpg",
       category: "Doctors",
       linkText: "View Doctors",
       linkUrl: "/doctors",
@@ -201,7 +235,7 @@ async function main() {
       id: "00000000-0000-0000-0000-000000000103",
       title: "Laboratory Services",
       description: "Accurate laboratory testing with modern medical equipment.",
-      image: "/images/service-lab.jpg",
+      image: "/uploads/services/service-lab.jpg",
       category: "Laboratory",
       linkText: "View Services",
       linkUrl: "/lab-tests",
@@ -233,7 +267,7 @@ async function main() {
         "The doctors and staff were professional, caring, and very helpful throughout my treatment.",
       name: "Sarah Johnson",
       role: "Patient",
-      image: "/images/testimonial-1.jpg",
+      image: "/uploads/site/testimonial-1.png",
       rating: 5,
       sortOrder: 1,
     },
@@ -243,7 +277,7 @@ async function main() {
         "I had a great experience at Aura Hospital. The facilities are modern and the service is excellent.",
       name: "Michael Smith",
       role: "Patient",
-      image: "/images/testimonial-2.jpg",
+      image: "/uploads/site/testimonial-2.png",
       rating: 5,
       sortOrder: 2,
     },
@@ -253,7 +287,7 @@ async function main() {
         "The medical team made me feel comfortable and explained everything clearly.",
       name: "Emily Davis",
       role: "Patient",
-      image: "/images/testimonial-3.jpg",
+      image: "/uploads/site/testimonial-3.png",
       rating: 5,
       sortOrder: 3,
     },
@@ -323,297 +357,293 @@ async function main() {
 
   console.log("Why Choose Us items ready");
 
-
   // ─────────────────────────────────────────────
-// LAB TESTS / OFFERS
-// ─────────────────────────────────────────────
+  // LAB TESTS / OFFERS
+  // ─────────────────────────────────────────────
 
-const labTests = [
-  {
-    id: "00000000-0000-0000-0000-000000000401",
-    title: "Complete Blood Test",
-    description:
-      "A comprehensive blood test to help evaluate your overall health.",
-    image: "/images/lab-blood-test.jpg",
-    discount: 20,
-    price: 25,
-    buttonText: "Book Test",
-    buttonUrl: "/contact",
-    color: "#8B5CF6",
-    sortOrder: 1,
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000402",
-    title: "Full Body Checkup",
-    description:
-      "A complete health screening designed to give you a clear picture of your health.",
-    image: "/images/lab-full-body.jpg",
-    discount: 30,
-    price: 80,
-    buttonText: "Book Checkup",
-    buttonUrl: "/contact",
-    color: "#22C55E",
-    sortOrder: 2,
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000403",
-    title: "Diabetes Screening",
-    description:
-      "Quick and reliable testing to monitor your blood sugar levels.",
-    image: "/images/lab-diabetes.jpg",
-    discount: 15,
-    price: 20,
-    buttonText: "Book Test",
-    buttonUrl: "/contact",
-    color: "#F7C12B",
-    sortOrder: 3,
-  },
-];
-
-for (const labTest of labTests) {
-  await prisma.labTest.upsert({
-    where: {
-      id: labTest.id,
+  const labTests = [
+    {
+      id: "00000000-0000-0000-0000-000000000401",
+      title: "Complete Blood Test",
+      description:
+        "A comprehensive blood test to help evaluate your overall health.",
+      image: "/uploads/lab-tests/lab-blood-test.jpg",
+      discount: 20,
+      price: 25,
+      buttonText: "Book Test",
+      buttonUrl: "/contact",
+      color: "#8B5CF6",
+      sortOrder: 1,
     },
-    update: labTest,
-    create: labTest,
-  });
-}
-
-console.log("Lab tests ready");
-
-
-// ─────────────────────────────────────────────
-// DOCTORS
-// ─────────────────────────────────────────────
-
-const doctors = [
-  {
-    id: "00000000-0000-0000-0000-000000000501",
-    name: "Dr. Sarah Johnson",
-    specialty: "Cardiologist",
-    description:
-      "Experienced cardiologist specializing in comprehensive heart care.",
-    image: "/images/doctor-1.jpg",
-    profileUrl: "/doctors/sarah-johnson",
-    category: "Cardiology",
-    sortOrder: 1,
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000502",
-    name: "Dr. Michael Smith",
-    specialty: "Neurologist",
-    description:
-      "Specialist in neurological conditions and advanced patient care.",
-    image: "/images/doctor-2.jpg",
-    profileUrl: "/doctors/michael-smith",
-    category: "Neurology",
-    sortOrder: 2,
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000503",
-    name: "Dr. Emily Davis",
-    specialty: "Pediatrician",
-    description:
-      "Dedicated pediatrician providing compassionate healthcare for children.",
-    image: "/images/doctor-3.jpg",
-    profileUrl: "/doctors/emily-davis",
-    category: "Pediatrics",
-    sortOrder: 3,
-  },
-];
-
-for (const doctor of doctors) {
-  await prisma.doctor.upsert({
-    where: { id: doctor.id },
-    update: doctor,
-    create: doctor,
-  });
-}
-
-console.log("Doctors ready");
-
-
-// ─────────────────────────────────────────────
-// ARTICLES
-// ─────────────────────────────────────────────
-
-const articles = [
-  {
-    id: "00000000-0000-0000-0000-000000000601",
-    title: "5 Simple Ways to Maintain a Healthy Heart",
-    excerpt:
-      "Discover practical habits that can help you maintain better heart health.",
-    content:
-      "A healthy lifestyle, regular exercise, balanced nutrition, and routine medical checkups can help protect your heart.",
-    image: "/images/article-1.jpg",
-    category: "Health Tips",
-    author: "Aura Hospital",
-    publishedAt: new Date("2026-09-01"),
-    readTime: 5,
-    slug: "5-simple-ways-to-maintain-a-healthy-heart",
-    isPublished: true,
-    sortOrder: 1,
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000602",
-    title: "Why Regular Health Checkups Matter",
-    excerpt:
-      "Regular checkups can help detect potential health problems early.",
-    content:
-      "Preventive healthcare and regular medical examinations play an important role in maintaining long-term health.",
-    image: "/images/article-2.jpg",
-    category: "Healthcare",
-    author: "Aura Hospital",
-    publishedAt: new Date("2026-09-05"),
-    readTime: 4,
-    slug: "why-regular-health-checkups-matter",
-    isPublished: true,
-    sortOrder: 2,
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000603",
-    title: "How to Build a Healthier Daily Routine",
-    excerpt:
-      "Small daily habits can make a meaningful difference to your overall wellbeing.",
-    content:
-      "Getting enough sleep, staying active, eating nutritious foods, and managing stress can contribute to a healthier lifestyle.",
-    image: "/images/article-3.jpg",
-    category: "Wellness",
-    author: "Aura Hospital",
-    publishedAt: new Date("2026-09-10"),
-    readTime: 6,
-    slug: "how-to-build-a-healthier-daily-routine",
-    isPublished: true,
-    sortOrder: 3,
-  },
-];
-
-for (const article of articles) {
-  await prisma.article.upsert({
-    where: { id: article.id },
-    update: article,
-    create: article,
-  });
-}
-
-console.log("Articles ready");
-
-
-// ─────────────────────────────────────────────
-// FOOTER
-// ─────────────────────────────────────────────
-
-const footer = await prisma.footerSettings.upsert({
-  where: {
-    id: "00000000-0000-0000-0000-000000000701",
-  },
-  update: {
-    logo: "/images/logo-placeholder.png",
-    location: "Kabul, Afghanistan",
-    visitingHours: "Mon - Fri: 08:00 AM - 06:00 PM",
-    phone: "+93 700 000 000",
-  },
-  create: {
-    id: "00000000-0000-0000-0000-000000000701",
-    logo: "/images/logo-placeholder.png",
-    location: "Kabul, Afghanistan",
-    visitingHours: "Mon - Fri: 08:00 AM - 06:00 PM",
-    phone: "+93 700 000 000",
-  },
-});
-
-console.log("Footer settings ready");
-
-const footerColumns = [
-  {
-    id: "00000000-0000-0000-0000-000000000711",
-    title: "Quick Links",
-    sortOrder: 1,
-    links: [
-      {
-        id: "00000000-0000-0000-0000-000000000721",
-        label: "About Us",
-        url: "/about",
-        sortOrder: 1,
-      },
-      {
-        id: "00000000-0000-0000-0000-000000000722",
-        label: "Services",
-        url: "/services",
-        sortOrder: 2,
-      },
-      {
-        id: "00000000-0000-0000-0000-000000000723",
-        label: "Doctors",
-        url: "/doctors",
-        sortOrder: 3,
-      },
-    ],
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000712",
-    title: "Patient Care",
-    sortOrder: 2,
-    links: [
-      {
-        id: "00000000-0000-0000-0000-000000000724",
-        label: "Lab Tests",
-        url: "/lab-tests",
-        sortOrder: 1,
-      },
-      {
-        id: "00000000-0000-0000-0000-000000000725",
-        label: "Book Appointment",
-        url: "/contact",
-        sortOrder: 2,
-      },
-      {
-        id: "00000000-0000-0000-0000-000000000726",
-        label: "Contact Us",
-        url: "/contact",
-        sortOrder: 3,
-      },
-    ],
-  },
-];
-
-for (const column of footerColumns) {
-  const footerColumn = await prisma.footerColumn.upsert({
-    where: {
-      id: column.id,
+    {
+      id: "00000000-0000-0000-0000-000000000402",
+      title: "Full Body Checkup",
+      description:
+        "A complete health screening designed to give you a clear picture of your health.",
+      image: "/uploads/lab-tests/lab-full-body.jpg",
+      discount: 30,
+      price: 80,
+      buttonText: "Book Checkup",
+      buttonUrl: "/contact",
+      color: "#22C55E",
+      sortOrder: 2,
     },
-    update: {
-      title: column.title,
-      sortOrder: column.sortOrder,
+    {
+      id: "00000000-0000-0000-0000-000000000403",
+      title: "Diabetes Screening",
+      description:
+        "Quick and reliable testing to monitor your blood sugar levels.",
+      image: "/uploads/lab-tests/lab-diabetes.jpg",
+      discount: 15,
+      price: 20,
+      buttonText: "Book Test",
+      buttonUrl: "/contact",
+      color: "#F7C12B",
+      sortOrder: 3,
     },
-    create: {
-      id: column.id,
-      title: column.title,
-      sortOrder: column.sortOrder,
-      footerSettingsId: footer.id,
-    },
-  });
+  ];
 
-  for (const link of column.links) {
-    await prisma.footerLink.upsert({
+  for (const labTest of labTests) {
+    await prisma.labTest.upsert({
       where: {
-        id: link.id,
+        id: labTest.id,
       },
-      update: {
-        label: link.label,
-        url: link.url,
-        sortOrder: link.sortOrder,
-      },
-      create: {
-        ...link,
-        footerColumnId: footerColumn.id,
-      },
+      update: labTest,
+      create: labTest,
     });
   }
-}
 
-console.log("Footer columns and links ready");
+  console.log("Lab tests ready");
+
+  // ─────────────────────────────────────────────
+  // DOCTORS
+  // ─────────────────────────────────────────────
+
+  const doctors = [
+    {
+      id: "00000000-0000-0000-0000-000000000501",
+      name: "Dr. Sarah Johnson",
+      specialty: "Cardiologist",
+      description:
+        "Experienced cardiologist specializing in comprehensive heart care.",
+      image: "/uploads/doctors/doctor-1.jpg",
+      profileUrl: "/doctors/sarah-johnson",
+      category: "Cardiology",
+      sortOrder: 1,
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000502",
+      name: "Dr. Michael Smith",
+      specialty: "Neurologist",
+      description:
+        "Specialist in neurological conditions and advanced patient care.",
+      image: "/uploads/doctors/doctor-2.jpg",
+      profileUrl: "/doctors/michael-smith",
+      category: "Neurology",
+      sortOrder: 2,
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000503",
+      name: "Dr. Emily Davis",
+      specialty: "Pediatrician",
+      description:
+        "Dedicated pediatrician providing compassionate healthcare for children.",
+      image: "/uploads/doctors/doctor-3.jpg",
+      profileUrl: "/doctors/emily-davis",
+      category: "Pediatrics",
+      sortOrder: 3,
+    },
+  ];
+
+  for (const doctor of doctors) {
+    await prisma.doctor.upsert({
+      where: { id: doctor.id },
+      update: doctor,
+      create: doctor,
+    });
+  }
+
+  console.log("Doctors ready");
+
+  // ─────────────────────────────────────────────
+  // ARTICLES
+  // ─────────────────────────────────────────────
+
+  const articles = [
+    {
+      id: "00000000-0000-0000-0000-000000000601",
+      title: "5 Simple Ways to Maintain a Healthy Heart",
+      excerpt:
+        "Discover practical habits that can help you maintain better heart health.",
+      content:
+        "A healthy lifestyle, regular exercise, balanced nutrition, and routine medical checkups can help protect your heart.",
+      image: "/uploads/articles/article-1.png",
+      category: "Health Tips",
+      author: "Aura Hospital",
+      publishedAt: new Date("2026-09-01"),
+      readTime: 5,
+      slug: "5-simple-ways-to-maintain-a-healthy-heart",
+      isPublished: true,
+      sortOrder: 1,
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000602",
+      title: "Why Regular Health Checkups Matter",
+      excerpt:
+        "Regular checkups can help detect potential health problems early.",
+      content:
+        "Preventive healthcare and regular medical examinations play an important role in maintaining long-term health.",
+      image: "/uploads/articles/article-2.png",
+      category: "Healthcare",
+      author: "Aura Hospital",
+      publishedAt: new Date("2026-09-05"),
+      readTime: 4,
+      slug: "why-regular-health-checkups-matter",
+      isPublished: true,
+      sortOrder: 2,
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000603",
+      title: "How to Build a Healthier Daily Routine",
+      excerpt:
+        "Small daily habits can make a meaningful difference to your overall wellbeing.",
+      content:
+        "Getting enough sleep, staying active, eating nutritious foods, and managing stress can contribute to a healthier lifestyle.",
+      image: "/uploads/articles/article-3.png",
+      category: "Wellness",
+      author: "Aura Hospital",
+      publishedAt: new Date("2026-09-10"),
+      readTime: 6,
+      slug: "how-to-build-a-healthier-daily-routine",
+      isPublished: true,
+      sortOrder: 3,
+    },
+  ];
+
+  for (const article of articles) {
+    await prisma.article.upsert({
+      where: { id: article.id },
+      update: article,
+      create: article,
+    });
+  }
+
+  console.log("Articles ready");
+
+  // ─────────────────────────────────────────────
+  // FOOTER
+  // ─────────────────────────────────────────────
+
+  const footer = await prisma.footerSettings.upsert({
+    where: {
+      id: "00000000-0000-0000-0000-000000000701",
+    },
+    update: {
+      logo: "/uploads/site/logo.svg",
+      location: "Kabul, Afghanistan",
+      visitingHours: "Mon - Fri: 08:00 AM - 06:00 PM",
+      phone: "+93 700 000 000",
+    },
+    create: {
+      id: "00000000-0000-0000-0000-000000000701",
+      logo: "/uploads/site/logo.svg",
+      location: "Kabul, Afghanistan",
+      visitingHours: "Mon - Fri: 08:00 AM - 06:00 PM",
+      phone: "+93 700 000 000",
+    },
+  });
+
+  console.log("Footer settings ready");
+
+  const footerColumns = [
+    {
+      id: "00000000-0000-0000-0000-000000000711",
+      title: "Quick Links",
+      sortOrder: 1,
+      links: [
+        {
+          id: "00000000-0000-0000-0000-000000000721",
+          label: "About Us",
+          url: "/about",
+          sortOrder: 1,
+        },
+        {
+          id: "00000000-0000-0000-0000-000000000722",
+          label: "Services",
+          url: "/services",
+          sortOrder: 2,
+        },
+        {
+          id: "00000000-0000-0000-0000-000000000723",
+          label: "Doctors",
+          url: "/doctors",
+          sortOrder: 3,
+        },
+      ],
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000712",
+      title: "Patient Care",
+      sortOrder: 2,
+      links: [
+        {
+          id: "00000000-0000-0000-0000-000000000724",
+          label: "Lab Tests",
+          url: "/lab-tests",
+          sortOrder: 1,
+        },
+        {
+          id: "00000000-0000-0000-0000-000000000725",
+          label: "Book Appointment",
+          url: "/contact",
+          sortOrder: 2,
+        },
+        {
+          id: "00000000-0000-0000-0000-000000000726",
+          label: "Contact Us",
+          url: "/contact",
+          sortOrder: 3,
+        },
+      ],
+    },
+  ];
+
+  for (const column of footerColumns) {
+    const footerColumn = await prisma.footerColumn.upsert({
+      where: {
+        id: column.id,
+      },
+      update: {
+        title: column.title,
+        sortOrder: column.sortOrder,
+      },
+      create: {
+        id: column.id,
+        title: column.title,
+        sortOrder: column.sortOrder,
+        footerSettingsId: footer.id,
+      },
+    });
+
+    for (const link of column.links) {
+      await prisma.footerLink.upsert({
+        where: {
+          id: link.id,
+        },
+        update: {
+          label: link.label,
+          url: link.url,
+          sortOrder: link.sortOrder,
+        },
+        create: {
+          ...link,
+          footerColumnId: footerColumn.id,
+        },
+      });
+    }
+  }
+
+  console.log("Footer columns and links ready");
 }
 
 main()

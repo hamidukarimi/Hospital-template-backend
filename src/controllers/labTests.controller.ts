@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-import { getLabTests } from "../services/labTests.service";
+import { getLabTests } from "../services/labTests.service.js";
 
-export const getLabTestsController = async (
-  _req: Request,
-  res: Response
-) => {
+export const getLabTestsController = async (_req: Request, res: Response) => {
   try {
     const labTests = await getLabTests();
 

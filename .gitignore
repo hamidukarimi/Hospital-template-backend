@@ -9,6 +9,11 @@ node_modules/
 # Prisma generated client
 src/generated/prisma/
 
+# Uploaded website images
+uploads/*
+!uploads/**/
+!uploads/**/.gitkeep
+
 # Build output
 dist/
 

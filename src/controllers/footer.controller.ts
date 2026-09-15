@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-import { getFooter } from "../services/footer.service";
+import { getFooter } from "../services/footer.service.js";
 
-export const getFooterController = async (
-  _req: Request,
-  res: Response
-) => {
+export const getFooterController = async (_req: Request, res: Response) => {
   try {
     const footer = await getFooter();
 

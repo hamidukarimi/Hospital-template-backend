@@ -1,4 +1,4 @@
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 
 export const getFooter = async () => {
   return prisma.footerSettings.findFirst({

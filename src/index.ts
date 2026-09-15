@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "node:path";
 import siteSettingsRoutes from "./routes/siteSettings.routes.js";
 import heroRoutes from "./routes/hero.routes.js";
 import helpRoutes from "./routes/help.routes.js";
@@ -12,15 +13,35 @@ import labTestsRoutes from "./routes/labTests.routes.js";
 import doctorsRoutes from "./routes/doctors.routes.js";
 import articlesRoutes from "./routes/articles.routes.js";
 import footerRoutes from "./routes/footer.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "http://localhost:5000",
+];
 
-app.use(cors());
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Cors blocked"));
+    },
+    credentials: true,
+  }),
+);
 app.use(express.json());
+app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
 
+app.use("/api/uploads", uploadRoutes);
 app.use("/api/site-settings", siteSettingsRoutes);
 app.use("/api/hero", heroRoutes);
 app.use("/api/help", helpRoutes);

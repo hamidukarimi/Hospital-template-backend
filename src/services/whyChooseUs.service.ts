@@ -1,4 +1,4 @@
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 
 export const getWhyChooseUs = async () => {
   return prisma.whyChooseUsItem.findMany({

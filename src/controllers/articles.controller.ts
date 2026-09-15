@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-import { getArticles } from "../services/articles.service";
+import { getArticles } from "../services/articles.service.js";
 
-export const getArticlesController = async (
-  _req: Request,
-  res: Response
-) => {
+export const getArticlesController = async (_req: Request, res: Response) => {
   try {
     const articles = await getArticles();
 
