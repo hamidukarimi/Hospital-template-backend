@@ -265,7 +265,7 @@ async function main() {
       id: "00000000-0000-0000-0000-000000000201",
       content:
         "The doctors and staff were professional, caring, and very helpful throughout my treatment.",
-      name: "Sarah Johnson",
+      name: "Sarah Ahmadi",
       role: "Patient",
       image: "/uploads/site/testimonial-1.png",
       rating: 5,
@@ -275,7 +275,7 @@ async function main() {
       id: "00000000-0000-0000-0000-000000000202",
       content:
         "I had a great experience at Aura Hospital. The facilities are modern and the service is excellent.",
-      name: "Michael Smith",
+      name: "Mohammad Azizi",
       role: "Patient",
       image: "/uploads/site/testimonial-2.png",
       rating: 5,
@@ -285,7 +285,7 @@ async function main() {
       id: "00000000-0000-0000-0000-000000000203",
       content:
         "The medical team made me feel comfortable and explained everything clearly.",
-      name: "Emily Davis",
+      name: "Laila Mohammadi",
       role: "Patient",
       image: "/uploads/site/testimonial-3.png",
       rating: 5,
@@ -421,38 +421,53 @@ async function main() {
 
   const doctors = [
     {
-      id: "00000000-0000-0000-0000-000000000501",
-      name: "Dr. Sarah Johnson",
-      specialty: "Cardiologist",
-      description:
-        "Experienced cardiologist specializing in comprehensive heart care.",
-      image: "/uploads/doctors/doctor-1.jpg",
-      profileUrl: "/doctors/sarah-johnson",
-      category: "Cardiology",
-      sortOrder: 1,
-    },
-    {
-      id: "00000000-0000-0000-0000-000000000502",
-      name: "Dr. Michael Smith",
-      specialty: "Neurologist",
-      description:
-        "Specialist in neurological conditions and advanced patient care.",
-      image: "/uploads/doctors/doctor-2.jpg",
-      profileUrl: "/doctors/michael-smith",
-      category: "Neurology",
-      sortOrder: 2,
-    },
-    {
-      id: "00000000-0000-0000-0000-000000000503",
-      name: "Dr. Emily Davis",
-      specialty: "Pediatrician",
-      description:
-        "Dedicated pediatrician providing compassionate healthcare for children.",
-      image: "/uploads/doctors/doctor-3.jpg",
-      profileUrl: "/doctors/emily-davis",
-      category: "Pediatrics",
-      sortOrder: 3,
-    },
+  id: "33333333-3333-3333-3333-333333333331",
+  name: "Dr. Ahmad Rahimi",
+  specialty: "Cardiologist",
+  description:
+    "Experienced cardiologist focused on heart health, prevention, diagnosis, and personalized treatment.",
+  image: "/uploads/doctors/doctor-1.jpg",
+  profileUrl: "/doctors/ahmad-rahimi",
+  category: "Cardiology",
+  isActive: true,
+  sortOrder: 1,
+},
+{
+  id: "33333333-3333-3333-3333-333333333332",
+  name: "Dr. Farzana Safi",
+  specialty: "Neurologist",
+  description:
+    "Dedicated neurologist providing comprehensive care for neurological conditions and disorders.",
+  image: "/uploads/doctors/doctor-2.jpg",
+  profileUrl: "/doctors/farzana-safi",
+  category: "Neurology",
+  isActive: true,
+  sortOrder: 2,
+},
+{
+  id: "33333333-3333-3333-3333-333333333333",
+  name: "Dr. Mohammad Wali Noori",
+  specialty: "Pediatrician",
+  description:
+    "Caring pediatrician committed to providing safe, compassionate healthcare for children and families.",
+  image: "/uploads/doctors/doctor-3.jpg",
+  profileUrl: "/doctors/mohammad-wali-noori",
+  category: "Pediatrics",
+  isActive: true,
+  sortOrder: 3,
+},
+{
+  id: "33333333-3333-3333-3333-333333333333",
+  name: "Dr. Badam Samadazai",
+  specialty: "Pediatrician",
+  description:
+    "Caring pediatrician committed to providing safe, compassionate healthcare for children and families.",
+  image: "/uploads/doctors/doctor-3.jpg",
+  profileUrl: "/doctors/badam-samadazai",
+  category: "Pediatrics",
+  isActive: true,
+  sortOrder: 3,
+},
   ];
 
   for (const doctor of doctors) {
