@@ -15,6 +15,7 @@ import articlesRoutes from "./routes/articles.routes.js";
 import footerRoutes from "./routes/footer.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import adminAuthRoutes from "./routes/adminAuthRoutes.js";
+import adminServiceRoutes from "./routes/adminServiceRoutes.js";
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use("/api/doctors", doctorsRoutes);
 app.use("/api/articles", articlesRoutes);
 app.use("/api/footer", footerRoutes);
 app.use("/api/admin", adminAuthRoutes);
+app.use("/api/admin/services", adminServiceRoutes);
 app.get("/", (_req, res) => {
   res.json({
     message: "Hospital Website API is running",
