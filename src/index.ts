@@ -24,6 +24,9 @@ import adminWhyChooseUsRoutes from "./routes/adminWhyChooseUsRoutes.js";
 import adminLabTestRoutes from "./routes/adminLabTestRoutes.js";
 import adminSiteSettingsRoutes from "./routes/adminSiteSettingsRoutes.js";
 import adminSocialMediaRoutes from "./routes/adminSocialMediaRoutes.js";
+import adminFooterSettingsRoutes from "./routes/adminFooterSettingsRoutes.js";
+import adminFooterColumnRoutes from "./routes/adminFooterColumnRoutes.js";
+import adminFooterLinkRoutes from "./routes/adminFooterLinkRoutes.js";
 
 dotenv.config();
 
@@ -69,6 +72,9 @@ app.use("/api/admin/why-choose-us", adminWhyChooseUsRoutes);
 app.use("/api/admin/lab-tests", adminLabTestRoutes);
 app.use("/api/admin/site-settings", adminSiteSettingsRoutes);
 app.use("/api/admin/social-media", adminSocialMediaRoutes);
+app.use("/api/admin/footer-settings", adminFooterSettingsRoutes);
+app.use("/api/admin/footer-columns", adminFooterColumnRoutes);
+app.use("/api/admin/footer-links", adminFooterLinkRoutes);
 app.get("/", (_req, res) => {
   res.json({
     message: "Hospital Website API is running",
