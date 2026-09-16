@@ -27,7 +27,7 @@ export const getHelpCards = async (_req: Request, res: Response) => {
 
 export const getHelpCard = async (req: Request, res: Response) => {
   try {
-    const helpCard = await getHelpCardById(req.params.id);
+    const helpCard = await getHelpCardById(req.params.id as string);
 
     if (!helpCard) {
       return res.status(404).json({
@@ -108,7 +108,7 @@ export const addHelpCard = async (req: Request, res: Response) => {
 export const editHelpCard = async (req: Request, res: Response) => {
   try {
     const helpCard = await updateHelpCard(
-      req.params.id,
+      req.params.id as string,
       req.body
     );
 
@@ -128,7 +128,7 @@ export const editHelpCard = async (req: Request, res: Response) => {
 
 export const removeHelpCard = async (req: Request, res: Response) => {
   try {
-    await deleteHelpCard(req.params.id);
+    await deleteHelpCard(req.params.id as string);
 
     return res.json({
       success: true,

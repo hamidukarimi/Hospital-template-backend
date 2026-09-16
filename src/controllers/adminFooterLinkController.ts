@@ -33,7 +33,7 @@ export const getFooterLink = async (
   res: Response
 ) => {
   try {
-    const link = await getFooterLinkById(req.params.id);
+    const link = await getFooterLinkById(req.params.id as string);
 
     if (!link) {
       return res.status(404).json({
@@ -105,7 +105,7 @@ export const editFooterLink = async (
 ) => {
   try {
     const link = await updateFooterLink(
-      req.params.id,
+      req.params.id as string,
       req.body
     );
 
@@ -128,7 +128,7 @@ export const removeFooterLink = async (
   res: Response
 ) => {
   try {
-    await deleteFooterLink(req.params.id);
+    await deleteFooterLink(req.params.id as string);
 
     return res.json({
       success: true,

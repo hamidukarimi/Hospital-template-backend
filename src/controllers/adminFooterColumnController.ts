@@ -33,7 +33,7 @@ export const getFooterColumn = async (
   res: Response
 ) => {
   try {
-    const column = await getFooterColumnById(req.params.id);
+    const column = await getFooterColumnById(req.params.id as string);
 
     if (!column) {
       return res.status(404).json({
@@ -102,7 +102,7 @@ export const editFooterColumn = async (
 ) => {
   try {
     const column = await updateFooterColumn(
-      req.params.id,
+      req.params.id as string,
       req.body
     );
 
@@ -125,7 +125,7 @@ export const removeFooterColumn = async (
   res: Response
 ) => {
   try {
-    await deleteFooterColumn(req.params.id);
+    await deleteFooterColumn(req.params.id as string);
 
     return res.json({
       success: true,

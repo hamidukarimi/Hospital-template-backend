@@ -25,7 +25,7 @@ export const getDoctors = async (_req: Request, res: Response) => {
 
 export const getDoctor = async (req: Request, res: Response) => {
   try {
-    const doctor = await getDoctorById(req.params.id);
+    const doctor = await getDoctorById(req.params.id as string);
 
     if (!doctor) {
       return res.status(404).json({
@@ -91,7 +91,7 @@ export const addDoctor = async (req: Request, res: Response) => {
 
 export const editDoctor = async (req: Request, res: Response) => {
   try {
-    const doctor = await updateDoctor(req.params.id, req.body);
+    const doctor = await updateDoctor(req.params.id as string, req.body);
 
     return res.json({
       success: true,
@@ -107,7 +107,7 @@ export const editDoctor = async (req: Request, res: Response) => {
 
 export const removeDoctor = async (req: Request, res: Response) => {
   try {
-    await deleteDoctor(req.params.id);
+    await deleteDoctor(req.params.id as string);
 
     return res.json({
       success: true,

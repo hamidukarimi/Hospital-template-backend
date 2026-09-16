@@ -30,7 +30,7 @@ export const getWhyChooseUsItem = async (
   res: Response
 ) => {
   try {
-    const item = await getWhyChooseUsById(req.params.id);
+    const item = await getWhyChooseUsById(req.params.id as string);
 
     if (!item) {
       return res.status(404).json({
@@ -103,7 +103,7 @@ export const editWhyChooseUs = async (
 ) => {
   try {
     const item = await updateWhyChooseUs(
-      req.params.id,
+      req.params.id as string,
       req.body
     );
 
@@ -126,7 +126,7 @@ export const removeWhyChooseUs = async (
   res: Response
 ) => {
   try {
-    await deleteWhyChooseUs(req.params.id);
+    await deleteWhyChooseUs(req.params.id as string);
 
     return res.json({
       success: true,

@@ -25,7 +25,7 @@ export const getServices = async (_req: Request, res: Response) => {
 
 export const getService = async (req: Request, res: Response) => {
   try {
-    const service = await getServiceById(req.params.id);
+    const service = await getServiceById(req.params.id as string);
 
     if (!service) {
       return res.status(404).json({
@@ -93,7 +93,7 @@ export const addService = async (req: Request, res: Response) => {
 
 export const editService = async (req: Request, res: Response) => {
   try {
-    const service = await updateService(req.params.id, req.body);
+    const service = await updateService(req.params.id as string, req.body);
 
     return res.json({
       success: true,
@@ -109,7 +109,7 @@ export const editService = async (req: Request, res: Response) => {
 
 export const removeService = async (req: Request, res: Response) => {
   try {
-    await deleteService(req.params.id);
+    await deleteService(req.params.id as string);
 
     return res.json({
       success: true,

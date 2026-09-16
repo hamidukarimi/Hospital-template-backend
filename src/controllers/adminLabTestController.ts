@@ -27,7 +27,7 @@ export const getLabTests = async (_req: Request, res: Response) => {
 
 export const getLabTest = async (req: Request, res: Response) => {
   try {
-    const labTest = await getLabTestById(req.params.id);
+    const labTest = await getLabTestById(req.params.id as string as string);
 
     if (!labTest) {
       return res.status(404).json({
@@ -109,7 +109,7 @@ export const addLabTest = async (req: Request, res: Response) => {
 export const editLabTest = async (req: Request, res: Response) => {
   try {
     const labTest = await updateLabTest(
-      req.params.id,
+      req.params.id as string,
       req.body
     );
 
@@ -132,7 +132,7 @@ export const removeLabTest = async (
   res: Response
 ) => {
   try {
-    await deleteLabTest(req.params.id);
+    await deleteLabTest(req.params.id as string);
 
     return res.json({
       success: true,

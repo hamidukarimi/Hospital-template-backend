@@ -26,8 +26,10 @@
     "prisma": "^7.10.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.5.1",
     "@types/pg": "^8.23.1",
     "ts-node-dev": "^2.0.0",

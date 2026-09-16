@@ -25,7 +25,7 @@ export const getArticles = async (_req: Request, res: Response) => {
 
 export const getArticle = async (req: Request, res: Response) => {
   try {
-    const article = await getArticleById(req.params.id);
+    const article = await getArticleById(req.params.id as string);
 
     if (!article) {
       return res.status(404).json({
@@ -95,7 +95,7 @@ export const addArticle = async (req: Request, res: Response) => {
 
 export const editArticle = async (req: Request, res: Response) => {
   try {
-    const article = await updateArticle(req.params.id, req.body);
+    const article = await updateArticle(req.params.id as string, req.body);
 
     return res.json({
       success: true,
@@ -113,7 +113,7 @@ export const editArticle = async (req: Request, res: Response) => {
 
 export const removeArticle = async (req: Request, res: Response) => {
   try {
-    await deleteArticle(req.params.id);
+    await deleteArticle(req.params.id as string);
 
     return res.json({
       success: true,

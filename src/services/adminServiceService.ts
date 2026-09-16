@@ -33,7 +33,7 @@ export const createService = async (data: {
       category: data.category,
       linkText: data.linkText,
       linkUrl: data.linkUrl,
-      color: data.color ?? null,
+      color: data.color ?? "",
       isActive: data.isActive ?? true,
       sortOrder: data.sortOrder ?? 0,
     },
@@ -49,7 +49,7 @@ export const updateService = async (
     category: string;
     linkText: string;
     linkUrl: string;
-    color: string | null;
+    color: string;
     isActive: boolean;
     sortOrder: number;
   }>

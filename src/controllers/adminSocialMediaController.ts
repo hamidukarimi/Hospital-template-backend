@@ -33,7 +33,7 @@ export const getSocialMediaItem = async (
   res: Response
 ) => {
   try {
-    const socialMedia = await getSocialMediaById(req.params.id);
+    const socialMedia = await getSocialMediaById(req.params.id as string);
 
     if (!socialMedia) {
       return res.status(404).json({
@@ -104,7 +104,7 @@ export const editSocialMedia = async (
 ) => {
   try {
     const socialMedia = await updateSocialMedia(
-      req.params.id,
+      req.params.id as string,
       req.body
     );
 
@@ -127,7 +127,7 @@ export const removeSocialMedia = async (
   res: Response
 ) => {
   try {
-    await deleteSocialMedia(req.params.id);
+    await deleteSocialMedia(req.params.id as string);
 
     return res.json({
       success: true,

@@ -27,7 +27,7 @@ export const getTestimonials = async (_req: Request, res: Response) => {
 
 export const getTestimonial = async (req: Request, res: Response) => {
   try {
-    const testimonial = await getTestimonialById(req.params.id);
+    const testimonial = await getTestimonialById(req.params.id as string);
 
     if (!testimonial) {
       return res.status(404).json({
@@ -96,7 +96,7 @@ export const addTestimonial = async (req: Request, res: Response) => {
 export const editTestimonial = async (req: Request, res: Response) => {
   try {
     const testimonial = await updateTestimonial(
-      req.params.id,
+      req.params.id as string,
       req.body
     );
 
@@ -119,7 +119,7 @@ export const removeTestimonial = async (
   res: Response
 ) => {
   try {
-    await deleteTestimonial(req.params.id);
+    await deleteTestimonial(req.params.id as string);
 
     return res.json({
       success: true,

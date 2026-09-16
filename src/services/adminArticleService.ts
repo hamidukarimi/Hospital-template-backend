@@ -47,7 +47,7 @@ export const createArticle = async (data: {
       excerpt: data.excerpt,
       content: data.content,
       image: data.image ?? null,
-      author: data.author ?? null,
+      author: data.author ?? "",
       category: data.category,
       readTime: data.readTime ?? null,
       isPublished: data.isPublished ?? false,
@@ -64,7 +64,7 @@ export const updateArticle = async (
     excerpt: string;
     content: string;
     image: string | null;
-    author: string | null;
+    author: string;
     category: string;
     readTime: number | null;
     isPublished: boolean;

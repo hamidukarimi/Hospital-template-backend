@@ -29,7 +29,7 @@ export const createTestimonial = async (data: {
       role: data.role ?? null,
       content: data.content,
       image: data.image ?? null,
-      rating: data.rating ?? null,
+      rating: data.rating ?? 5,
       sortOrder: data.sortOrder ?? 0,
       isActive: data.isActive ?? true,
     },
@@ -43,7 +43,7 @@ export const updateTestimonial = async (
     role: string | null;
     content: string;
     image: string | null;
-    rating: number | null;
+    rating: number;
     sortOrder: number;
     isActive: boolean;
   }>
