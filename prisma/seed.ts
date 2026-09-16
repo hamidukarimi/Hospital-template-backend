@@ -1,6 +1,22 @@
 import prisma from "../src/lib/prisma.js";
+import bcrypt from "bcrypt";
 
 async function main() {
+  const adminPasswordHash = await bcrypt.hash("Admin@12345", 12);
+
+  await prisma.admin.upsert({
+    where: {
+      email: "admin@aurahospital.com",
+    },
+    update: {},
+    create: {
+      name: "Aura Hospital Admin",
+      email: "admin@aurahospital.com",
+      passwordHash: adminPasswordHash,
+      role: "ADMIN",
+    },
+  });
+
   // ─────────────────────────────────────────────
   // SITE SETTINGS
   // ─────────────────────────────────────────────
@@ -421,53 +437,53 @@ async function main() {
 
   const doctors = [
     {
-  id: "33333333-3333-3333-3333-333333333331",
-  name: "Dr. Ahmad Rahimi",
-  specialty: "Cardiologist",
-  description:
-    "Experienced cardiologist focused on heart health, prevention, diagnosis, and personalized treatment.",
-  image: "/uploads/doctors/doctor-1.jpg",
-  profileUrl: "/doctors/ahmad-rahimi",
-  category: "Cardiology",
-  isActive: true,
-  sortOrder: 1,
-},
-{
-  id: "33333333-3333-3333-3333-333333333332",
-  name: "Dr. Farzana Safi",
-  specialty: "Neurologist",
-  description:
-    "Dedicated neurologist providing comprehensive care for neurological conditions and disorders.",
-  image: "/uploads/doctors/doctor-2.jpg",
-  profileUrl: "/doctors/farzana-safi",
-  category: "Neurology",
-  isActive: true,
-  sortOrder: 2,
-},
-{
-  id: "33333333-3333-3333-3333-333333333333",
-  name: "Dr. Mohammad Wali Noori",
-  specialty: "Pediatrician",
-  description:
-    "Caring pediatrician committed to providing safe, compassionate healthcare for children and families.",
-  image: "/uploads/doctors/doctor-3.jpg",
-  profileUrl: "/doctors/mohammad-wali-noori",
-  category: "Pediatrics",
-  isActive: true,
-  sortOrder: 3,
-},
-{
-  id: "33333333-3333-3333-3333-333333333333",
-  name: "Dr. Badam Samadazai",
-  specialty: "Pediatrician",
-  description:
-    "Caring pediatrician committed to providing safe, compassionate healthcare for children and families.",
-  image: "/uploads/doctors/doctor-3.jpg",
-  profileUrl: "/doctors/badam-samadazai",
-  category: "Pediatrics",
-  isActive: true,
-  sortOrder: 3,
-},
+      id: "33333333-3333-3333-3333-333333333331",
+      name: "Dr. Ahmad Rahimi",
+      specialty: "Cardiologist",
+      description:
+        "Experienced cardiologist focused on heart health, prevention, diagnosis, and personalized treatment.",
+      image: "/uploads/doctors/doctor-1.jpg",
+      profileUrl: "/doctors/ahmad-rahimi",
+      category: "Cardiology",
+      isActive: true,
+      sortOrder: 1,
+    },
+    {
+      id: "33333333-3333-3333-3333-333333333332",
+      name: "Dr. Farzana Safi",
+      specialty: "Neurologist",
+      description:
+        "Dedicated neurologist providing comprehensive care for neurological conditions and disorders.",
+      image: "/uploads/doctors/doctor-2.jpg",
+      profileUrl: "/doctors/farzana-safi",
+      category: "Neurology",
+      isActive: true,
+      sortOrder: 2,
+    },
+    {
+      id: "33333333-3333-3333-3333-333333333333",
+      name: "Dr. Mohammad Wali Noori",
+      specialty: "Pediatrician",
+      description:
+        "Caring pediatrician committed to providing safe, compassionate healthcare for children and families.",
+      image: "/uploads/doctors/doctor-3.jpg",
+      profileUrl: "/doctors/mohammad-wali-noori",
+      category: "Pediatrics",
+      isActive: true,
+      sortOrder: 3,
+    },
+    {
+      id: "33333333-3333-3333-3333-333333333333",
+      name: "Dr. Badam Samadazai",
+      specialty: "Pediatrician",
+      description:
+        "Caring pediatrician committed to providing safe, compassionate healthcare for children and families.",
+      image: "/uploads/doctors/doctor-3.jpg",
+      profileUrl: "/doctors/badam-samadazai",
+      category: "Pediatrics",
+      isActive: true,
+      sortOrder: 3,
+    },
   ];
 
   for (const doctor of doctors) {
