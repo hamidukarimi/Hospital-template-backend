@@ -65,6 +65,8 @@ export const addWhyChooseUs = async (
       color,
       sortOrder,
       isActive,
+      linkText,
+      linkUrl,
     } = req.body;
 
     if (!icon || !title || !description || !color) {
@@ -79,8 +81,10 @@ export const addWhyChooseUs = async (
       title,
       description,
       color,
-      sortOrder,
-      isActive,
+      sortOrder: sortOrder !== undefined ? Number(sortOrder) : 0,
+      isActive: isActive !== undefined ? Boolean(isActive) : true,
+      linkText: linkText ? String(linkText).trim() : null,
+      linkUrl: linkUrl ? String(linkUrl).trim() : null,
     });
 
     return res.status(201).json({
@@ -102,9 +106,30 @@ export const editWhyChooseUs = async (
   res: Response
 ) => {
   try {
+    const {
+      icon,
+      title,
+      description,
+      color,
+      sortOrder,
+      isActive,
+      linkText,
+      linkUrl,
+    } = req.body;
+
+    const updateData: Record<string, any> = {};
+    if (icon !== undefined) updateData.icon = icon;
+    if (title !== undefined) updateData.title = title;
+    if (description !== undefined) updateData.description = description;
+    if (color !== undefined) updateData.color = color;
+    if (sortOrder !== undefined) updateData.sortOrder = Number(sortOrder);
+    if (isActive !== undefined) updateData.isActive = Boolean(isActive);
+    if (linkText !== undefined) updateData.linkText = linkText ? String(linkText).trim() : null;
+    if (linkUrl !== undefined) updateData.linkUrl = linkUrl ? String(linkUrl).trim() : null;
+
     const item = await updateWhyChooseUs(
       req.params.id as string,
-      req.body
+      updateData
     );
 
     return res.json({

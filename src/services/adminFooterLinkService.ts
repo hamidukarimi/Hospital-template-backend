@@ -39,6 +39,7 @@ export const updateFooterLink = async (
     url: string;
     sortOrder: number;
     isActive: boolean;
+    footerColumnId: string;
   }>
 ) => {
   return prisma.footerLink.update({

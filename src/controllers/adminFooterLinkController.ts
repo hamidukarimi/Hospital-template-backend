@@ -104,9 +104,17 @@ export const editFooterLink = async (
   res: Response
 ) => {
   try {
+    const { label, url, sortOrder, isActive, footerColumnId } = req.body;
+    const updateData: Record<string, any> = {};
+    if (label !== undefined) updateData.label = label;
+    if (url !== undefined) updateData.url = url;
+    if (sortOrder !== undefined) updateData.sortOrder = Number(sortOrder) || 0;
+    if (isActive !== undefined) updateData.isActive = Boolean(isActive);
+    if (footerColumnId !== undefined) updateData.footerColumnId = footerColumnId;
+
     const link = await updateFooterLink(
       req.params.id as string,
-      req.body
+      updateData
     );
 
     return res.json({

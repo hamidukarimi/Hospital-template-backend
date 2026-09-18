@@ -21,6 +21,8 @@ export const createWhyChooseUs = async (data: {
   color: string;
   sortOrder?: number;
   isActive?: boolean;
+  linkText?: string | null;
+  linkUrl?: string | null;
 }) => {
   return prisma.whyChooseUsItem.create({
     data: {
@@ -30,6 +32,8 @@ export const createWhyChooseUs = async (data: {
       color: data.color,
       sortOrder: data.sortOrder ?? 0,
       isActive: data.isActive ?? true,
+      linkText: data.linkText ?? null,
+      linkUrl: data.linkUrl ?? null,
     },
   });
 };
@@ -43,6 +47,8 @@ export const updateWhyChooseUs = async (
     color: string;
     sortOrder: number;
     isActive: boolean;
+    linkText: string | null;
+    linkUrl: string | null;
   }>
 ) => {
   return prisma.whyChooseUsItem.update({

@@ -67,6 +67,12 @@ export const addArticle = async (req: Request, res: Response) => {
       });
     }
 
+    const parsedPublishedAt = publishedAt
+      ? (/^\d{4}-\d{2}-\d{2}$/.test(publishedAt)
+          ? new Date(`${publishedAt}T00:00:00.000Z`)
+          : new Date(publishedAt))
+      : undefined;
+
     const article = await createArticle({
       title,
       excerpt,
@@ -74,9 +80,13 @@ export const addArticle = async (req: Request, res: Response) => {
       image,
       author,
       category,
-      readTime,
-      isPublished,
-      publishedAt: publishedAt ? new Date(publishedAt) : undefined,
+      readTime:
+        readTime !== undefined && readTime !== "" ? Number(readTime) : undefined,
+      isPublished: Boolean(isPublished),
+      publishedAt:
+        parsedPublishedAt && !isNaN(parsedPublishedAt.getTime())
+          ? parsedPublishedAt
+          : undefined,
     });
 
     return res.status(201).json({
@@ -95,7 +105,48 @@ export const addArticle = async (req: Request, res: Response) => {
 
 export const editArticle = async (req: Request, res: Response) => {
   try {
-    const article = await updateArticle(req.params.id as string, req.body);
+    const {
+      title,
+      slug,
+      excerpt,
+      content,
+      image,
+      author,
+      category,
+      readTime,
+      isPublished,
+      publishedAt,
+    } = req.body;
+
+    const updateData: Record<string, any> = {};
+    if (title !== undefined) updateData.title = title;
+    if (slug !== undefined) updateData.slug = slug;
+    if (excerpt !== undefined) updateData.excerpt = excerpt;
+    if (content !== undefined) updateData.content = content;
+    if (image !== undefined) updateData.image = image || null;
+    if (author !== undefined) updateData.author = author;
+    if (category !== undefined) updateData.category = category;
+    if (readTime !== undefined) {
+      updateData.readTime =
+        readTime !== null && readTime !== "" ? Number(readTime) : null;
+    }
+    if (isPublished !== undefined) updateData.isPublished = Boolean(isPublished);
+    if (publishedAt !== undefined) {
+      if (!publishedAt) {
+        updateData.publishedAt = null;
+      } else if (publishedAt instanceof Date) {
+        updateData.publishedAt = publishedAt;
+      } else if (typeof publishedAt === "string") {
+        const parsed = /^\d{4}-\d{2}-\d{2}$/.test(publishedAt)
+          ? new Date(`${publishedAt}T00:00:00.000Z`)
+          : new Date(publishedAt);
+        updateData.publishedAt = !isNaN(parsed.getTime()) ? parsed : null;
+      } else {
+        updateData.publishedAt = null;
+      }
+    }
+
+    const article = await updateArticle(req.params.id as string, updateData);
 
     return res.json({
       success: true,

@@ -38,3 +38,16 @@ export const loginAdmin = async (
     },
   };
 };
+
+export const getAdminProfile = async (adminId: string) => {
+  const admin = await prisma.admin.findUnique({
+    where: { id: adminId },
+  });
+
+  if (!admin) {
+    return null;
+  }
+
+  const { passwordHash, ...safeAdmin } = admin;
+  return safeAdmin;
+};

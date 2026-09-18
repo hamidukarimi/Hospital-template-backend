@@ -1,25 +1,15 @@
 import { Router } from "express";
 import {
   adminLogin,
+  adminMe,
 } from "../controllers/adminAuthController.js";
 import {
   authenticateAdmin,
-  type AuthenticatedRequest,
 } from "../middleware/authMiddleware.js";
 
 const router = Router();
 
 router.post("/login", adminLogin);
-
-router.get(
-  "/me",
-  authenticateAdmin,
-  (req: AuthenticatedRequest, res) => {
-    res.json({
-      success: true,
-      data: req.admin,
-    });
-  }
-);
+router.get("/me", authenticateAdmin, adminMe);
 
 export default router;

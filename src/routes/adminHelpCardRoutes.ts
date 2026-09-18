@@ -5,6 +5,7 @@ import {
   editHelpCard,
   getHelpCard,
   getHelpCards,
+  getHelpSections,
   removeHelpCard,
 } from "../controllers/adminHelpCardController.js";
 
@@ -12,6 +13,7 @@ const router = Router();
 
 router.use(authenticateAdmin);
 
+router.get("/sections", getHelpSections);
 router.get("/", getHelpCards);
 router.get("/:id", getHelpCard);
 router.post("/", addHelpCard);
