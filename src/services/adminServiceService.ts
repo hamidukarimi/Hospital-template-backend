@@ -2,6 +2,7 @@ import prisma from "../lib/prisma.js";
 
 export const getAllServices = async () => {
   return prisma.service.findMany({
+    include: { metrics: { orderBy: { sortOrder: "asc" } } },
     orderBy: {
       sortOrder: "asc",
     },
@@ -11,11 +12,13 @@ export const getAllServices = async () => {
 export const getServiceById = async (id: string) => {
   return prisma.service.findUnique({
     where: { id },
+    include: { metrics: { orderBy: { sortOrder: "asc" } } },
   });
 };
 
 export const createService = async (data: {
   title: string;
+  slug?: string;
   description: string;
   image?: string;
   category: string;
@@ -24,10 +27,29 @@ export const createService = async (data: {
   color?: string;
   isActive?: boolean;
   sortOrder?: number;
+  ctaText?: string | null;
+  ctaUrl?: string | null;
+  overviewTitle?: string | null;
+  overviewDescription?: string | null;
+  metrics?: Array<{
+    label: string;
+    value: number;
+    suffix?: string | null;
+    sortOrder?: number;
+    isActive?: boolean;
+  }>;
 }) => {
   return prisma.service.create({
     data: {
       title: data.title,
+      slug:
+        data.slug ||
+        data.title
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "") ||
+        crypto.randomUUID(),
       description: data.description,
       image: data.image ?? null,
       category: data.category,
@@ -36,6 +58,11 @@ export const createService = async (data: {
       color: data.color ?? "",
       isActive: data.isActive ?? true,
       sortOrder: data.sortOrder ?? 0,
+      ctaText: data.ctaText ?? null,
+      ctaUrl: data.ctaUrl ?? null,
+      overviewTitle: data.overviewTitle ?? null,
+      overviewDescription: data.overviewDescription ?? null,
+      metrics: data.metrics ? { create: data.metrics } : undefined,
     },
   });
 };
@@ -44,6 +71,7 @@ export const updateService = async (
   id: string,
   data: Partial<{
     title: string;
+    slug: string;
     description: string;
     image: string | null;
     category: string;
@@ -52,11 +80,32 @@ export const updateService = async (
     color: string;
     isActive: boolean;
     sortOrder: number;
-  }>
+    ctaText: string | null;
+    ctaUrl: string | null;
+    overviewTitle: string | null;
+    overviewDescription: string | null;
+    metrics: Array<{
+      label: string;
+      value: number;
+      suffix?: string | null;
+      sortOrder?: number;
+      isActive?: boolean;
+    }>;
+  }>,
 ) => {
-  return prisma.service.update({
-    where: { id },
-    data,
+  const { metrics, ...serviceData } = data;
+  return prisma.$transaction(async (transaction) => {
+    const service = await transaction.service.update({
+      where: { id },
+      data: serviceData,
+    });
+    if (metrics) {
+      await transaction.serviceMetric.deleteMany({ where: { serviceId: id } });
+      await transaction.serviceMetric.createMany({
+        data: metrics.map((metric) => ({ ...metric, serviceId: id })),
+      });
+    }
+    return service;
   });
 };
 

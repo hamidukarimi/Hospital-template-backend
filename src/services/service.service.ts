@@ -6,3 +6,12 @@ export const getServices = async () => {
     orderBy: { sortOrder: "asc" },
   });
 };
+
+export const getServiceBySlug = async (slug: string) => {
+  return prisma.service.findFirst({
+    where: { slug, isActive: true },
+    include: {
+      metrics: { where: { isActive: true }, orderBy: { sortOrder: "asc" } },
+    },
+  });
+};

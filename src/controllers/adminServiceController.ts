@@ -50,6 +50,7 @@ export const addService = async (req: Request, res: Response) => {
   try {
     const {
       title,
+      slug,
       description,
       image,
       category,
@@ -58,6 +59,11 @@ export const addService = async (req: Request, res: Response) => {
       color,
       isActive,
       sortOrder,
+      ctaText,
+      ctaUrl,
+      overviewTitle,
+      overviewDescription,
+      metrics,
     } = req.body;
 
     if (!title || !description || !category || !linkText || !linkUrl) {
@@ -69,6 +75,7 @@ export const addService = async (req: Request, res: Response) => {
 
     const service = await createService({
       title,
+      slug,
       description,
       image,
       category,
@@ -77,6 +84,11 @@ export const addService = async (req: Request, res: Response) => {
       color,
       isActive,
       sortOrder,
+      ctaText,
+      ctaUrl,
+      overviewTitle,
+      overviewDescription,
+      metrics: Array.isArray(metrics) ? metrics : undefined,
     });
 
     return res.status(201).json({

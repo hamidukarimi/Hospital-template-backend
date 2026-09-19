@@ -198,19 +198,41 @@ model AboutSection {
 // ─────────────────────────────────────────────
 
 model Service {
-  id          String  @id @default(uuid()) @db.Uuid
-  title       String
-  description String
-  image       String?
-  category    String?
-  linkText    String?
-  linkUrl     String?
-  color       String
-  isActive    Boolean @default(true)
-  sortOrder   Int     @default(0)
+  id                  String  @id @default(uuid()) @db.Uuid
+  title               String
+  slug                String  @unique
+  description         String
+  image               String?
+  category            String?
+  linkText            String?
+  linkUrl             String?
+  color               String
+  ctaText             String?
+  ctaUrl              String?
+  overviewTitle       String?
+  overviewDescription String?
+  isActive            Boolean @default(true)
+  sortOrder           Int     @default(0)
+
+  metrics ServiceMetric[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ServiceMetric {
+  id        String   @id @default(uuid()) @db.Uuid
+  label     String
+  value     Int
+  suffix    String?
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  serviceId String   @db.Uuid
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([serviceId, sortOrder])
 }
 
 // ─────────────────────────────────────────────
