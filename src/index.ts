@@ -28,6 +28,7 @@ import adminFooterSettingsRoutes from "./routes/adminFooterSettingsRoutes.js";
 import adminFooterColumnRoutes from "./routes/adminFooterColumnRoutes.js";
 import adminFooterLinkRoutes from "./routes/adminFooterLinkRoutes.js";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
+import contactRoutes from "./routes/contact.routes.js";
 
 dotenv.config();
 
@@ -77,6 +78,7 @@ app.use("/api/admin/footer-settings", adminFooterSettingsRoutes);
 app.use("/api/admin/footer-columns", adminFooterColumnRoutes);
 app.use("/api/admin/footer-links", adminFooterLinkRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);
+app.use("/api/contact", contactRoutes);
 app.get("/", (_req, res) => {
   res.json({
     message: "Hospital Website API is running",

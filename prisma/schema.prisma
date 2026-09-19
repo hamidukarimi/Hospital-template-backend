@@ -51,8 +51,10 @@ model SiteSettings {
   hospitalName              String
   logo                      String?
   phone                     String
+  emergencyPhone            String?
   email                     String
   address                   String
+  mapEmbedUrl               String?
   sundayVisitingHours       String?
   mondayFridayVisitingHours String?
 
@@ -60,6 +62,23 @@ model SiteSettings {
   updatedAt DateTime @updatedAt
 
   socialMedia SocialMedia[]
+}
+
+// ─────────────────────────────────────────────
+// CONTACT SUBMISSIONS
+// ─────────────────────────────────────────────
+
+model ContactSubmission {
+  id         String   @id @default(uuid()) @db.Uuid
+  name       String
+  email      String
+  phone      String?
+  department String   @default("General Inquiry")
+  message    String
+  isRead     Boolean  @default(false)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 // ─────────────────────────────────────────────

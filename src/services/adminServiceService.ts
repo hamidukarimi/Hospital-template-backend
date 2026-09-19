@@ -64,6 +64,9 @@ export const createService = async (data: {
       overviewDescription: data.overviewDescription ?? null,
       metrics: data.metrics ? { create: data.metrics } : undefined,
     },
+    include: {
+      metrics: { orderBy: { sortOrder: "asc" } }, // Ensures returned created object contains metrics array
+    },
   });
 };
 
@@ -95,17 +98,25 @@ export const updateService = async (
 ) => {
   const { metrics, ...serviceData } = data;
   return prisma.$transaction(async (transaction) => {
-    const service = await transaction.service.update({
+    await transaction.service.update({
       where: { id },
       data: serviceData,
     });
+
     if (metrics) {
       await transaction.serviceMetric.deleteMany({ where: { serviceId: id } });
-      await transaction.serviceMetric.createMany({
-        data: metrics.map((metric) => ({ ...metric, serviceId: id })),
-      });
+      if (metrics.length > 0) {
+        await transaction.serviceMetric.createMany({
+          data: metrics.map((metric) => ({ ...metric, serviceId: id })),
+        });
+      }
     }
-    return service;
+
+    // Return the updated service with metrics populated
+    return transaction.service.findUnique({
+      where: { id },
+      include: { metrics: { orderBy: { sortOrder: "asc" } } },
+    });
   });
 };
 
