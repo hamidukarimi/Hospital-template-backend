@@ -186,11 +186,15 @@ model HelpCard {
 }
 
 // ─────────────────────────────────────────────
-// ABOUT
+// ABOUT (singleton — institutional / About identity)
 // ─────────────────────────────────────────────
 
-model AboutSection {
-  id          String  @id @default(uuid()) @db.Uuid
+model About {
+  id           String @id @default(uuid()) @db.Uuid
+  /// Enforces a single logical About record for the website
+  singletonKey String @unique @default("default")
+
+  // Homepage teaser / reusable summary
   smallTitle  String?
   title       String
   description String
@@ -205,6 +209,49 @@ model AboutSection {
   rating              Decimal? @db.Decimal(2, 1)
   badgeText           String?
   badgeValue          String?
+
+  // About page — hero
+  heroBadge         String?
+  heroTitle         String?
+  heroTitleHighlight String?
+  heroSubtitle      String?
+  heroButtonText    String?
+  heroImage         String?
+  heroImageCaption  String?
+
+  // About page — mission
+  missionTitle       String?
+  missionTagline     String?
+  missionDescription String?
+  missionButtonText  String?
+
+  // About page — vision
+  visionTitle       String?
+  visionTagline     String?
+  visionDescription String?
+  visionButtonText  String?
+
+  // About page — impact / stats
+  statsEyebrow     String?
+  statsTitle       String?
+  statsDescription String?
+  /// [{ icon, value, title, description }]
+  stats            Json?
+
+  // About page — journey / milestones
+  milestonesEyebrow      String?
+  milestonesTitle        String?
+  milestonesDescription  String?
+  milestonesImage        String?
+  milestonesImageCaption String?
+  /// [{ year, title, description }]
+  milestones             Json?
+
+  // About page — CTA banner
+  ctaTitle      String?
+  ctaSubtitle   String?
+  ctaButtonText String?
+  ctaButtonUrl  String?
 
   isActive Boolean @default(true)
 

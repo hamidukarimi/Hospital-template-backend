@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { getAboutSectionController } from "../controllers/about.controller.js";
+import { getAboutController } from "../controllers/about.controller.js";
 
 const router = Router();
 
-router.get("/", getAboutSectionController);
+router.get("/", getAboutController);
 
 export default router;
