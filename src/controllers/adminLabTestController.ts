@@ -27,7 +27,7 @@ export const getLabTests = async (_req: Request, res: Response) => {
 
 export const getLabTest = async (req: Request, res: Response) => {
   try {
-    const labTest = await getLabTestById(req.params.id as string as string);
+    const labTest = await getLabTestById(req.params.id as string);
 
     if (!labTest) {
       return res.status(404).json({
@@ -55,7 +55,7 @@ export const addLabTest = async (req: Request, res: Response) => {
     const {
       title,
       description,
-      image,
+      icon,
       discount,
       price,
       buttonText,
@@ -68,6 +68,7 @@ export const addLabTest = async (req: Request, res: Response) => {
     if (
       !title ||
       !description ||
+      !icon ||
       price === undefined ||
       !buttonText ||
       !buttonUrl ||
@@ -82,7 +83,7 @@ export const addLabTest = async (req: Request, res: Response) => {
     const labTest = await createLabTest({
       title,
       description,
-      image,
+      icon,
       discount,
       price,
       buttonText,
@@ -108,9 +109,34 @@ export const addLabTest = async (req: Request, res: Response) => {
 
 export const editLabTest = async (req: Request, res: Response) => {
   try {
+    const {
+      title,
+      description,
+      icon,
+      discount,
+      price,
+      buttonText,
+      buttonUrl,
+      color,
+      isActive,
+      sortOrder,
+    } = req.body;
+
+    const updateData: Record<string, unknown> = {};
+    if (title !== undefined) updateData.title = title;
+    if (description !== undefined) updateData.description = description;
+    if (icon !== undefined) updateData.icon = icon;
+    if (discount !== undefined) updateData.discount = discount;
+    if (price !== undefined) updateData.price = price;
+    if (buttonText !== undefined) updateData.buttonText = buttonText;
+    if (buttonUrl !== undefined) updateData.buttonUrl = buttonUrl;
+    if (color !== undefined) updateData.color = color;
+    if (isActive !== undefined) updateData.isActive = Boolean(isActive);
+    if (sortOrder !== undefined) updateData.sortOrder = Number(sortOrder);
+
     const labTest = await updateLabTest(
       req.params.id as string,
-      req.body
+      updateData,
     );
 
     return res.json({
@@ -127,10 +153,7 @@ export const editLabTest = async (req: Request, res: Response) => {
   }
 };
 
-export const removeLabTest = async (
-  req: Request,
-  res: Response
-) => {
+export const removeLabTest = async (req: Request, res: Response) => {
   try {
     await deleteLabTest(req.params.id as string);
 

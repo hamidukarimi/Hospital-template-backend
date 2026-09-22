@@ -508,7 +508,7 @@ async function main() {
       title: "Experienced Doctors",
       description:
         "Our experienced medical professionals provide trusted and compassionate care.",
-      icon: "Stethoscope",
+      image: "/uploads/why-choose-us/doctors.jpg",
       color: "#F7C12B",
       linkText: "Meet Our Doctors",
       linkUrl: "/doctors",
@@ -519,7 +519,7 @@ async function main() {
       title: "Modern Facilities",
       description:
         "We provide high-quality healthcare using modern facilities and technology.",
-      icon: "Hospital",
+      image: "/uploads/why-choose-us/facilities.jpg",
       color: "#8B5CF6",
       linkText: "Learn More",
       linkUrl: "/about",
@@ -530,7 +530,7 @@ async function main() {
       title: "24/7 Emergency Care",
       description:
         "Our emergency services are available around the clock when you need us.",
-      icon: "Clock",
+      image: "/uploads/why-choose-us/emergency.jpg",
       color: "#EF4444",
       linkText: "Emergency",
       linkUrl: "/contact",
@@ -560,7 +560,7 @@ async function main() {
       title: "Complete Blood Test",
       description:
         "A comprehensive blood test to help evaluate your overall health.",
-      image: "/uploads/lab-tests/lab-blood-test.jpg",
+      icon: "Activity",
       discount: 20,
       price: 25,
       buttonText: "Book Test",
@@ -573,7 +573,7 @@ async function main() {
       title: "Full Body Checkup",
       description:
         "A complete health screening designed to give you a clear picture of your health.",
-      image: "/uploads/lab-tests/lab-full-body.jpg",
+      icon: "ScanLine",
       discount: 30,
       price: 80,
       buttonText: "Book Checkup",
@@ -586,7 +586,7 @@ async function main() {
       title: "Diabetes Screening",
       description:
         "Quick and reliable testing to monitor your blood sugar levels.",
-      image: "/uploads/lab-tests/lab-diabetes.jpg",
+      icon: "FlaskConical",
       discount: 15,
       price: 20,
       buttonText: "Book Test",
@@ -746,18 +746,9 @@ async function main() {
     where: {
       id: "00000000-0000-0000-0000-000000000701",
     },
-    update: {
-      logo: "/uploads/site/logo.svg",
-      location: "Kabul, Afghanistan",
-      visitingHours: "Mon - Fri: 08:00 AM - 06:00 PM",
-      phone: "+93 700 000 000",
-    },
+    update: {},
     create: {
       id: "00000000-0000-0000-0000-000000000701",
-      logo: "/uploads/site/logo.svg",
-      location: "Kabul, Afghanistan",
-      visitingHours: "Mon - Fri: 08:00 AM - 06:00 PM",
-      phone: "+93 700 000 000",
     },
   });
 

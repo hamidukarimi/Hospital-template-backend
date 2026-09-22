@@ -15,7 +15,7 @@ export const getWhyChooseUsById = async (id: string) => {
 };
 
 export const createWhyChooseUs = async (data: {
-  icon: string;
+  image?: string | null;
   title: string;
   description: string;
   color: string;
@@ -26,7 +26,7 @@ export const createWhyChooseUs = async (data: {
 }) => {
   return prisma.whyChooseUsItem.create({
     data: {
-      icon: data.icon,
+      image: data.image ?? null,
       title: data.title,
       description: data.description,
       color: data.color,
@@ -41,7 +41,7 @@ export const createWhyChooseUs = async (data: {
 export const updateWhyChooseUs = async (
   id: string,
   data: Partial<{
-    icon: string;
+    image: string | null;
     title: string;
     description: string;
     color: string;

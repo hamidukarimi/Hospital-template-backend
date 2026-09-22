@@ -17,7 +17,7 @@ export const getLabTestById = async (id: string) => {
 export const createLabTest = async (data: {
   title: string;
   description: string;
-  image?: string;
+  icon: string;
   discount?: number;
   price: number;
   buttonText: string;
@@ -30,7 +30,7 @@ export const createLabTest = async (data: {
     data: {
       title: data.title,
       description: data.description,
-      image: data.image ?? null,
+      icon: data.icon,
       discount: data.discount ?? null,
       price: data.price,
       buttonText: data.buttonText,
@@ -47,7 +47,7 @@ export const updateLabTest = async (
   data: Partial<{
     title: string;
     description: string;
-    image: string | null;
+    icon: string;
     discount: number | null;
     price: number;
     buttonText: string;

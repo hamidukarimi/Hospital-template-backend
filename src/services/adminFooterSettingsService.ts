@@ -1,5 +1,6 @@
 import prisma from "../lib/prisma.js";
 
+/** Kept so footer columns/links can resolve a footer settings id. */
 export const getFooterSettings = async () => {
   return prisma.footerSettings.findFirst({
     include: {
@@ -16,27 +17,5 @@ export const getFooterSettings = async () => {
         },
       },
     },
-  });
-};
-
-export const updateFooterSettings = async (
-  data: Partial<{
-    logo: string | null;
-    location: string;
-    visitingHours: string | null;
-    phone: string;
-  }>
-) => {
-  const existingSettings = await prisma.footerSettings.findFirst();
-
-  if (!existingSettings) {
-    throw new Error("Footer settings not found");
-  }
-
-  return prisma.footerSettings.update({
-    where: {
-      id: existingSettings.id,
-    },
-    data,
   });
 };

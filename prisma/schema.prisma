@@ -327,7 +327,7 @@ model WhyChooseUsItem {
   id          String  @id @default(uuid()) @db.Uuid
   title       String
   description String
-  icon        String
+  image       String?
   color       String
   linkText    String?
   linkUrl     String?
@@ -346,7 +346,7 @@ model LabTest {
   id          String   @id @default(uuid()) @db.Uuid
   title       String
   description String
-  image       String?
+  icon        String
   discount    Decimal? @db.Decimal(5, 2)
   price       Decimal  @db.Decimal(10, 2)
   buttonText  String
@@ -440,12 +440,10 @@ model Article {
 // FOOTER
 // ─────────────────────────────────────────────
 
+/// Container for footer navigation columns/links.
+/// Branding & contact (logo, address, hours, phone) live on SiteSettings.
 model FooterSettings {
-  id            String  @id @default(uuid()) @db.Uuid
-  logo          String?
-  location      String
-  visitingHours String?
-  phone         String
+  id String @id @default(uuid()) @db.Uuid
 
   columns FooterColumn[]
 

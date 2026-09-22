@@ -25,10 +25,7 @@ export const getWhyChooseUs = async (_req: Request, res: Response) => {
   }
 };
 
-export const getWhyChooseUsItem = async (
-  req: Request,
-  res: Response
-) => {
+export const getWhyChooseUsItem = async (req: Request, res: Response) => {
   try {
     const item = await getWhyChooseUsById(req.params.id as string);
 
@@ -53,13 +50,10 @@ export const getWhyChooseUsItem = async (
   }
 };
 
-export const addWhyChooseUs = async (
-  req: Request,
-  res: Response
-) => {
+export const addWhyChooseUs = async (req: Request, res: Response) => {
   try {
     const {
-      icon,
+      image,
       title,
       description,
       color,
@@ -69,7 +63,7 @@ export const addWhyChooseUs = async (
       linkUrl,
     } = req.body;
 
-    if (!icon || !title || !description || !color) {
+    if (!title || !description || !color) {
       return res.status(400).json({
         success: false,
         message: "Required fields are missing",
@@ -77,7 +71,7 @@ export const addWhyChooseUs = async (
     }
 
     const item = await createWhyChooseUs({
-      icon,
+      image: image ? String(image).trim() : null,
       title,
       description,
       color,
@@ -101,13 +95,10 @@ export const addWhyChooseUs = async (
   }
 };
 
-export const editWhyChooseUs = async (
-  req: Request,
-  res: Response
-) => {
+export const editWhyChooseUs = async (req: Request, res: Response) => {
   try {
     const {
-      icon,
+      image,
       title,
       description,
       color,
@@ -117,19 +108,22 @@ export const editWhyChooseUs = async (
       linkUrl,
     } = req.body;
 
-    const updateData: Record<string, any> = {};
-    if (icon !== undefined) updateData.icon = icon;
+    const updateData: Record<string, unknown> = {};
+    if (image !== undefined)
+      updateData.image = image ? String(image).trim() : null;
     if (title !== undefined) updateData.title = title;
     if (description !== undefined) updateData.description = description;
     if (color !== undefined) updateData.color = color;
     if (sortOrder !== undefined) updateData.sortOrder = Number(sortOrder);
     if (isActive !== undefined) updateData.isActive = Boolean(isActive);
-    if (linkText !== undefined) updateData.linkText = linkText ? String(linkText).trim() : null;
-    if (linkUrl !== undefined) updateData.linkUrl = linkUrl ? String(linkUrl).trim() : null;
+    if (linkText !== undefined)
+      updateData.linkText = linkText ? String(linkText).trim() : null;
+    if (linkUrl !== undefined)
+      updateData.linkUrl = linkUrl ? String(linkUrl).trim() : null;
 
     const item = await updateWhyChooseUs(
       req.params.id as string,
-      updateData
+      updateData,
     );
 
     return res.json({
@@ -146,10 +140,7 @@ export const editWhyChooseUs = async (
   }
 };
 
-export const removeWhyChooseUs = async (
-  req: Request,
-  res: Response
-) => {
+export const removeWhyChooseUs = async (req: Request, res: Response) => {
   try {
     await deleteWhyChooseUs(req.params.id as string);
 
