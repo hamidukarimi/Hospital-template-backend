@@ -399,6 +399,22 @@ model Doctor {
 }
 
 // ─────────────────────────────────────────────
+// FAQ
+// ─────────────────────────────────────────────
+
+model Faq {
+  id        String  @id @default(uuid()) @db.Uuid
+  question  String
+  answer    String
+  category  String?
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
 // ARTICLES
 // ─────────────────────────────────────────────
 
