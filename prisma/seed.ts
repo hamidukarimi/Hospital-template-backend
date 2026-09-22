@@ -29,6 +29,7 @@ async function main() {
       hospitalName: "Aura Hospital",
       logo: "/uploads/site/logo.svg",
       phone: "+93 700 000 000",
+      emergencyPhone: "+93 700 111 911",
       email: "info@aurahospital.com",
       address: "Kabul, Afghanistan",
       sundayVisitingHours: "09:00 AM - 05:00 PM",
@@ -39,6 +40,7 @@ async function main() {
       hospitalName: "Aura Hospital",
       logo: "/uploads/site/logo.svg",
       phone: "+93 700 000 000",
+      emergencyPhone: "+93 700 111 911",
       email: "info@aurahospital.com",
       address: "Kabul, Afghanistan",
       sundayVisitingHours: "09:00 AM - 05:00 PM",
@@ -850,6 +852,127 @@ async function main() {
   }
 
   console.log("Footer columns and links ready");
+
+  // ─────────────────────────────────────────────
+  // NAVBAR
+  // ─────────────────────────────────────────────
+
+  const navbarColumns = [
+    {
+      id: "00000000-0000-0000-0000-000000000801",
+      label: "Home",
+      url: "/",
+      sortOrder: 1,
+      links: [
+        {
+          id: "00000000-0000-0000-0000-000000000811",
+          label: "Overview",
+          url: "/",
+          sortOrder: 1,
+        },
+      ],
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000802",
+      label: "About",
+      url: "/about",
+      sortOrder: 2,
+      links: [
+        {
+          id: "00000000-0000-0000-0000-000000000812",
+          label: "Mission & Vision",
+          url: "/about#mission",
+          sortOrder: 1,
+        },
+        {
+          id: "00000000-0000-0000-0000-000000000813",
+          label: "Our Impact",
+          url: "/about#impact",
+          sortOrder: 2,
+        },
+        {
+          id: "00000000-0000-0000-0000-000000000814",
+          label: "Our Journey",
+          url: "/about#journey",
+          sortOrder: 3,
+        },
+      ],
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000803",
+      label: "Contact",
+      url: "/contact",
+      sortOrder: 3,
+      links: [
+        {
+          id: "00000000-0000-0000-0000-000000000815",
+          label: "Get in Touch",
+          url: "/contact",
+          sortOrder: 1,
+        },
+      ],
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000804",
+      label: "FAQ",
+      url: "/faq",
+      sortOrder: 4,
+      links: [
+        {
+          id: "00000000-0000-0000-0000-000000000816",
+          label: "Common Questions",
+          url: "/faq",
+          sortOrder: 1,
+        },
+      ],
+    },
+  ];
+
+  for (const column of navbarColumns) {
+    const navigationItem = await prisma.navigationItem.upsert({
+      where: {
+        id: column.id,
+      },
+      update: {
+        label: column.label,
+        url: column.url,
+        sortOrder: column.sortOrder,
+        isActive: true,
+      },
+      create: {
+        id: column.id,
+        label: column.label,
+        url: column.url,
+        sortOrder: column.sortOrder,
+        isActive: true,
+      },
+    });
+
+    for (const link of column.links) {
+      await prisma.dropdownItem.upsert({
+        where: {
+          id: link.id,
+        },
+        update: {
+          label: link.label,
+          url: link.url,
+          sortOrder: link.sortOrder,
+          isActive: true,
+          navigationItemId: navigationItem.id,
+        },
+        create: {
+          id: link.id,
+          label: link.label,
+          url: link.url,
+          sortOrder: link.sortOrder,
+          isActive: true,
+          navigationItemId: navigationItem.id,
+        },
+      });
+    }
+  }
+
+  console.log("Navbar columns and links ready");
 }
 
 main()
