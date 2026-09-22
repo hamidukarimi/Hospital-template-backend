@@ -10,3 +10,12 @@ export const getDoctors = async () => {
     },
   });
 };
+
+export const getDoctorBySlug = async (slug: string) => {
+  return prisma.doctor.findFirst({
+    where: {
+      slug,
+      isActive: true,
+    },
+  });
+};

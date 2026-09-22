@@ -50,16 +50,25 @@ export const addDoctor = async (req: Request, res: Response) => {
   try {
     const {
       name,
+      slug,
       specialty,
+      credentials,
       description,
       image,
       profileUrl,
       category,
+      yearsExperience,
+      patientsTreated,
+      rating,
+      overviewTitle,
+      specialties,
+      education,
+      achievements,
       isActive,
       sortOrder,
     } = req.body;
 
-    if (!name || !specialty || !description || !category) {
+    if (!name || !specialty) {
       return res.status(400).json({
         success: false,
         message: "Required fields are missing",
@@ -68,11 +77,20 @@ export const addDoctor = async (req: Request, res: Response) => {
 
     const doctor = await createDoctor({
       name,
+      slug,
       specialty,
+      credentials,
       description,
       image,
       profileUrl,
       category,
+      yearsExperience,
+      patientsTreated,
+      rating,
+      overviewTitle,
+      specialties,
+      education,
+      achievements,
       isActive,
       sortOrder,
     });

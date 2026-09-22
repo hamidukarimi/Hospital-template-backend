@@ -366,13 +366,33 @@ model LabTest {
 model Doctor {
   id          String  @id @default(uuid()) @db.Uuid
   name        String
+  slug        String  @unique
   specialty   String
+  credentials String?
   description String?
   image       String?
   profileUrl  String?
   category    String?
-  isActive    Boolean @default(true)
-  sortOrder   Int     @default(0)
+
+  // Profile card stats (display strings, e.g. "15+", "10K+", "4.9/5")
+  yearsExperience String?
+  patientsTreated String?
+  rating          String?
+
+  // Overview section
+  overviewTitle String?
+
+  // Expertise — [{ label, icon, className }]
+  specialties Json?
+
+  // Education / training timeline — [{ year, title, institution }]
+  education Json?
+
+  // Achievements — [{ label, icon }]
+  achievements Json?
+
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
