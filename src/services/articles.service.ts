@@ -15,3 +15,12 @@ export const getArticles = async () => {
     ],
   });
 };
+
+export const getArticleBySlug = async (slug: string) => {
+  return prisma.article.findFirst({
+    where: {
+      slug,
+      isPublished: true,
+    },
+  });
+};
