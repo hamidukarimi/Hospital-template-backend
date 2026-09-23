@@ -411,6 +411,7 @@ async function main() {
       linkUrl: "/services/emergency",
       color: "#EF4444",
       sortOrder: 1,
+      slug: "emergency-care",
     },
     {
       id: "00000000-0000-0000-0000-000000000102",
@@ -423,6 +424,7 @@ async function main() {
       linkUrl: "/doctors",
       color: "#8B5CF6",
       sortOrder: 2,
+      slug: "specialist-doctors",
     },
     {
       id: "00000000-0000-0000-0000-000000000103",
@@ -434,6 +436,7 @@ async function main() {
       linkUrl: "/lab-tests",
       color: "#22C55E",
       sortOrder: 3,
+      slug: "laboratory-tests",
     },
   ];
 
@@ -624,6 +627,7 @@ async function main() {
       category: "Cardiology",
       isActive: true,
       sortOrder: 1,
+      slug: "ahmad-rahimi",
     },
     {
       id: "33333333-3333-3333-3333-333333333332",
@@ -636,6 +640,7 @@ async function main() {
       category: "Neurology",
       isActive: true,
       sortOrder: 2,
+      slug: "farzana-safi",
     },
     {
       id: "33333333-3333-3333-3333-333333333333",
@@ -648,10 +653,11 @@ async function main() {
       category: "Pediatrics",
       isActive: true,
       sortOrder: 3,
+      slug: "mohammad-wali-noori",
     },
     {
       id: "33333333-3333-3333-3333-333333333333",
-      name: "Dr. Badam Samadazai",
+      name: "Dr. Badam Ahmadzai",
       specialty: "Pediatrician",
       description:
         "Caring pediatrician committed to providing safe, compassionate healthcare for children and families.",
@@ -660,6 +666,7 @@ async function main() {
       category: "Pediatrics",
       isActive: true,
       sortOrder: 3,
+      slug: "badam-ahmadzai",
     },
   ];
 
