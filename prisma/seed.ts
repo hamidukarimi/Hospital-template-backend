@@ -2,7 +2,15 @@ import prisma from "../src/lib/prisma.js";
 import bcrypt from "bcrypt";
 
 async function main() {
-  const adminPasswordHash = await bcrypt.hash("Admin@12345", 12);
+  const adminSeedPassword = process.env.ADMIN_SEED_PASSWORD;
+
+  if (!adminSeedPassword) {
+    throw new Error(
+      "ADMIN_SEED_PASSWORD is required to run the seed script."
+    );
+  }
+
+  const adminPasswordHash = await bcrypt.hash(adminSeedPassword, 12);
 
   await prisma.admin.upsert({
     where: {
@@ -656,13 +664,13 @@ async function main() {
       slug: "mohammad-wali-noori",
     },
     {
-      id: "33333333-3333-3333-3333-333333333333",
+      id: "33333333-3333-3333-3333-333333333334",
       name: "Dr. Badam Ahmadzai",
       specialty: "Pediatrician",
       description:
         "Caring pediatrician committed to providing safe, compassionate healthcare for children and families.",
       image: "/uploads/doctors/doctor-3.jpg",
-      profileUrl: "/doctors/badam-samadazai",
+      profileUrl: "/doctors/badam-ahmadzai",
       category: "Pediatrics",
       isActive: true,
       sortOrder: 3,
