@@ -164,7 +164,7 @@ const defaultAboutCreateData = {
   ctaTitle: "Your Health. Our Priority.",
   ctaSubtitle: "Experience the future of healthcare with AuraTech.",
   ctaButtonText: "Book Appointment",
-  ctaButtonUrl: "/contact",
+  ctaButtonUrl: "/book-appointment",
   isActive: true,
 };
 

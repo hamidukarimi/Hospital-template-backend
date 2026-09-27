@@ -27,6 +27,24 @@ enum UserRole {
   ADMIN
 }
 
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum WeekDay {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
 // ─────────────────────────────────────────────
 // ADMIN USER
 // ─────────────────────────────────────────────
@@ -280,7 +298,8 @@ model Service {
   isActive            Boolean @default(true)
   sortOrder           Int     @default(0)
 
-  metrics ServiceMetric[]
+  metrics      ServiceMetric[]
+  appointments Appointment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -394,8 +413,102 @@ model Doctor {
   isActive  Boolean @default(true)
   sortOrder Int     @default(0)
 
+  schedules        DoctorSchedule[]
+  unavailabilities DoctorUnavailability[]
+  appointments     Appointment[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// APPOINTMENTS & DOCTOR AVAILABILITY
+// ─────────────────────────────────────────────
+
+/// Weekly recurring working hours for a doctor.
+model DoctorSchedule {
+  id                  String  @id @default(uuid()) @db.Uuid
+  doctorId            String  @db.Uuid
+  doctor              Doctor  @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  dayOfWeek           WeekDay
+  startTime           String
+  endTime             String
+  slotDurationMinutes Int     @default(30)
+  isActive            Boolean @default(true)
+
+  breaks DoctorScheduleBreak[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([doctorId, dayOfWeek, isActive])
+}
+
+model DoctorScheduleBreak {
+  id         String         @id @default(uuid()) @db.Uuid
+  scheduleId String         @db.Uuid
+  schedule   DoctorSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  startTime  String
+  endTime    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([scheduleId])
+}
+
+/// Full-day or partial-day unavailability (leave, holidays, etc.).
+model DoctorUnavailability {
+  id        String   @id @default(uuid()) @db.Uuid
+  doctorId  String   @db.Uuid
+  doctor    Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  startTime String?
+  endTime   String?
+  reason    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([doctorId, date])
+}
+
+model Appointment {
+  id                 String            @id @default(uuid()) @db.Uuid
+  reference          String            @unique
+  doctorId           String            @db.Uuid
+  doctor             Doctor            @relation(fields: [doctorId], references: [id], onDelete: Restrict)
+  serviceId          String?           @db.Uuid
+  service            Service?          @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  appointmentDate    DateTime          @db.Date
+  startTime          String
+  endTime            String
+  status             AppointmentStatus @default(PENDING)
+  patientName        String
+  patientEmail       String
+  patientPhone       String
+  reason             String?
+  notes              String?
+  adminNotes         String?
+  cancelledAt        DateTime?
+  cancellationReason String?
+  confirmedAt        DateTime?
+  completedAt        DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([doctorId, appointmentDate, status])
+  @@index([status, appointmentDate])
+  @@index([patientEmail])
+  @@index([patientPhone])
+  @@index([appointmentDate])
+}
+
+/// Yearly sequence for human-friendly appointment references (APT-2026-00001).
+model AppointmentCounter {
+  year      Int @id
+  lastValue Int @default(0)
 }
 
 // ─────────────────────────────────────────────

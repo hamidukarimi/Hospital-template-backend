@@ -93,7 +93,7 @@ async function main() {
       description:
         "Providing trusted healthcare services with experienced doctors and modern facilities.",
       buttonText: "Book an Appointment",
-      buttonUrl: "/contact",
+      buttonUrl: "/book-appointment",
       backgroundImage: "/uploads/hero/hero.jpg",
       secondaryImage: null,
       informationCardTitle: "Emergency Care",
@@ -106,7 +106,7 @@ async function main() {
       description:
         "Providing trusted healthcare services with experienced doctors and modern facilities.",
       buttonText: "Book an Appointment",
-      buttonUrl: "/contact",
+      buttonUrl: "/book-appointment",
       backgroundImage: "/uploads/hero/hero.jpg",
       secondaryImage: null,
       informationCardTitle: "Emergency Care",
@@ -142,7 +142,7 @@ async function main() {
       title: "Book an Appointment",
       description: "Schedule an appointment with one of our specialists.",
       buttonText: "Book Now",
-      buttonUrl: "/contact",
+      buttonUrl: "/book-appointment",
       color: "#8B5CF6",
       sortOrder: 1,
     },
@@ -291,7 +291,7 @@ async function main() {
       ctaTitle: "Your Health. Our Priority.",
       ctaSubtitle: "Experience the future of healthcare with AuraTech.",
       ctaButtonText: "Book Appointment",
-      ctaButtonUrl: "/contact",
+      ctaButtonUrl: "/book-appointment",
       isActive: true,
     },
     create: {
@@ -396,7 +396,7 @@ async function main() {
       ctaTitle: "Your Health. Our Priority.",
       ctaSubtitle: "Experience the future of healthcare with AuraTech.",
       ctaButtonText: "Book Appointment",
-      ctaButtonUrl: "/contact",
+      ctaButtonUrl: "/book-appointment",
       isActive: true,
     },
   });
@@ -809,7 +809,7 @@ async function main() {
         {
           id: "00000000-0000-0000-0000-000000000725",
           label: "Book Appointment",
-          url: "/contact",
+          url: "/book-appointment",
           sortOrder: 2,
         },
         {

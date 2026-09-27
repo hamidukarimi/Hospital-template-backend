@@ -35,6 +35,9 @@ import adminNavbarColumnRoutes from "./routes/adminNavbarColumnRoutes.js";
 import adminNavbarLinkRoutes from "./routes/adminNavbarLinkRoutes.js";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
 import contactRoutes from "./routes/contact.routes.js";
+import appointmentRoutes from "./routes/appointment.routes.js";
+import adminAppointmentRoutes from "./routes/adminAppointmentRoutes.js";
+import adminDoctorScheduleRoutes from "./routes/adminDoctorScheduleRoutes.js";
 
 dotenv.config();
 
@@ -91,6 +94,9 @@ app.use("/api/admin/navbar-columns", adminNavbarColumnRoutes);
 app.use("/api/admin/navbar-links", adminNavbarLinkRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/appointments", appointmentRoutes);
+app.use("/api/admin/appointments", adminAppointmentRoutes);
+app.use("/api/admin/doctor-schedules", adminDoctorScheduleRoutes);
 app.get("/", (_req, res) => {
   res.json({
     message: "Hospital Website API is running",
