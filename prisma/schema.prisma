@@ -35,6 +35,19 @@ enum AppointmentStatus {
   NO_SHOW
 }
 
+enum AppointmentEmailType {
+  APPOINTMENT_CONFIRMED
+  APPOINTMENT_RESCHEDULED
+  APPOINTMENT_CANCELLED
+}
+
+enum AppointmentEmailStatus {
+  QUEUED
+  PROCESSING
+  SENT
+  FAILED
+}
+
 enum WeekDay {
   SUNDAY
   MONDAY
@@ -495,6 +508,8 @@ model Appointment {
   confirmedAt        DateTime?
   completedAt        DateTime?
 
+  emailLogs AppointmentEmailLog[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -509,6 +524,34 @@ model Appointment {
 model AppointmentCounter {
   year      Int @id
   lastValue Int @default(0)
+}
+
+/// Outbox / delivery log for appointment transactional emails.
+model AppointmentEmailLog {
+  id                String                 @id @default(uuid()) @db.Uuid
+  appointmentId     String                 @db.Uuid
+  appointment       Appointment            @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  emailType         AppointmentEmailType
+  recipientEmail    String
+  subject           String
+  idempotencyKey    String                 @unique
+  status            AppointmentEmailStatus @default(QUEUED)
+  /// Snapshot used to render the email (patient, schedule, hospital, optional notes, previous schedule).
+  payload           Json
+  attempts          Int                    @default(0)
+  maxAttempts       Int                    @default(5)
+  lastError         String?
+  providerMessageId String?
+  queuedAt          DateTime               @default(now())
+  processedAt       DateTime?
+  sentAt            DateTime?
+  nextAttemptAt     DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, nextAttemptAt])
+  @@index([appointmentId, emailType])
 }
 
 // ─────────────────────────────────────────────

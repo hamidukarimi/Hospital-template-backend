@@ -23,6 +23,31 @@ const handleError = (res: Response, error: unknown, fallback: string) => {
   });
 };
 
+const statusMessage = (
+  status: string,
+  notificationQueued: boolean,
+): string => {
+  const base =
+    status === "CONFIRMED"
+      ? "Appointment confirmed."
+      : status === "CANCELLED"
+        ? "Appointment cancelled."
+        : status === "COMPLETED"
+          ? "Appointment marked as completed."
+          : status === "NO_SHOW"
+            ? "Appointment marked as no-show."
+            : "Appointment updated.";
+
+  if (
+    notificationQueued &&
+    (status === "CONFIRMED" || status === "CANCELLED")
+  ) {
+    return `${base} Notification queued.`;
+  }
+
+  return base;
+};
+
 export const listAppointments = async (req: Request, res: Response) => {
   try {
     const data = await listAppointmentsAdmin({
@@ -82,7 +107,11 @@ export const updateAppointmentStatus = async (req: Request, res: Response) => {
       cancellationReason,
     });
 
-    return res.json({ success: true, data });
+    return res.json({
+      success: true,
+      data,
+      message: statusMessage(status, Boolean(data.notificationQueued)),
+    });
   } catch (error) {
     return handleError(res, error, "Failed to update appointment status.");
   }
@@ -90,9 +119,10 @@ export const updateAppointmentStatus = async (req: Request, res: Response) => {
 
 export const rescheduleAppointment = async (req: Request, res: Response) => {
   try {
-    const { appointmentDate, startTime } = req.body as {
+    const { appointmentDate, startTime, patientNote } = req.body as {
       appointmentDate?: string;
       startTime?: string;
+      patientNote?: string;
     };
 
     if (!appointmentDate || !startTime) {
@@ -106,9 +136,16 @@ export const rescheduleAppointment = async (req: Request, res: Response) => {
       String(req.params.id),
       appointmentDate,
       startTime,
+      patientNote,
     );
 
-    return res.json({ success: true, data });
+    return res.json({
+      success: true,
+      data,
+      message: data.notificationQueued
+        ? "Appointment rescheduled. Notification queued."
+        : "Appointment rescheduled.",
+    });
   } catch (error) {
     return handleError(res, error, "Failed to reschedule appointment.");
   }

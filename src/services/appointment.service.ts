@@ -245,11 +245,14 @@ export const createAppointment = async (rawInput: CreateAppointmentInput) => {
 
     await notifyAppointmentEvent({
       event: "BOOKED",
+      appointmentId: appointment.id,
       reference: appointment.reference,
       patientName: appointment.patientName,
       patientEmail: appointment.patientEmail,
       patientPhone: appointment.patientPhone,
       doctorName: appointment.doctor.name,
+      doctorSpecialty: appointment.doctor.specialty,
+      serviceTitle: appointment.service?.title ?? null,
       appointmentDate: formatDateOnly(appointment.appointmentDate),
       startTime: appointment.startTime,
       endTime: appointment.endTime,
@@ -353,15 +356,20 @@ export const cancelAppointmentPublic = async (
 
   await notifyAppointmentEvent({
     event: "CANCELLED",
+    appointmentId: updated.id,
     reference: updated.reference,
     patientName: updated.patientName,
     patientEmail: updated.patientEmail,
     patientPhone: updated.patientPhone,
     doctorName: updated.doctor.name,
+    doctorSpecialty: updated.doctor.specialty,
+    serviceTitle: updated.service?.title ?? null,
     appointmentDate: formatDateOnly(updated.appointmentDate),
     startTime: updated.startTime,
     endTime: updated.endTime,
     status: updated.status,
+    patientNote: normalizeOptional(reason),
+    idempotencyKey: `APPOINTMENT_CANCELLED:${updated.id}:${updated.cancelledAt?.toISOString() ?? updated.updatedAt.toISOString()}`,
   });
 
   return serializeAppointment(updated);

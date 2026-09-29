@@ -174,13 +174,14 @@ export const updateAppointmentStatusAdmin = async (
 
   const existing = await prisma.appointment.findUnique({
     where: { id },
-    include: { doctor: { select: { name: true } } },
+    include: includeRelations,
   });
 
   if (!existing) {
     throw new AppointmentError("Appointment not found.", 404);
   }
 
+  const previousStatus = existing.status;
   const data: Prisma.AppointmentUpdateInput = {
     status: status as AppointmentStatus,
   };
@@ -197,12 +198,14 @@ export const updateAppointmentStatusAdmin = async (
     data.completedAt = new Date();
   }
 
+  const cancellationReason =
+    options?.cancellationReason?.trim() ||
+    existing.cancellationReason ||
+    "Cancelled by admin";
+
   if (status === "CANCELLED") {
     data.cancelledAt = new Date();
-    data.cancellationReason =
-      options?.cancellationReason?.trim() ||
-      existing.cancellationReason ||
-      "Cancelled by admin";
+    data.cancellationReason = cancellationReason;
   }
 
   if (status === "NO_SHOW") {
@@ -215,35 +218,65 @@ export const updateAppointmentStatusAdmin = async (
     include: includeRelations,
   });
 
-  const eventMap: Record<string, "CONFIRMED" | "CANCELLED" | "COMPLETED" | "NO_SHOW"> = {
-    CONFIRMED: "CONFIRMED",
-    CANCELLED: "CANCELLED",
-    COMPLETED: "COMPLETED",
-    NO_SHOW: "NO_SHOW",
-  };
+  let notificationQueued = false;
 
-  if (eventMap[status]) {
-    await notifyAppointmentEvent({
-      event: eventMap[status],
+  // Only email on real transitions to CONFIRMED / CANCELLED.
+  if (status === "CONFIRMED" && previousStatus !== "CONFIRMED") {
+    const result = await notifyAppointmentEvent({
+      event: "CONFIRMED",
+      appointmentId: updated.id,
       reference: updated.reference,
       patientName: updated.patientName,
       patientEmail: updated.patientEmail,
       patientPhone: updated.patientPhone,
       doctorName: updated.doctor.name,
+      doctorSpecialty: updated.doctor.specialty,
+      serviceTitle: updated.service?.title ?? null,
       appointmentDate: formatDateOnly(updated.appointmentDate),
       startTime: updated.startTime,
       endTime: updated.endTime,
       status: updated.status,
+      idempotencyKey: `APPOINTMENT_CONFIRMED:${updated.id}:${updated.confirmedAt?.toISOString() ?? updated.updatedAt.toISOString()}`,
     });
+    notificationQueued = result.queued;
+  } else if (status === "CANCELLED" && previousStatus !== "CANCELLED") {
+    const noteForPatient =
+      options?.cancellationReason?.trim() &&
+      options.cancellationReason.trim() !== "Cancelled by admin"
+        ? options.cancellationReason.trim()
+        : null;
+
+    const result = await notifyAppointmentEvent({
+      event: "CANCELLED",
+      appointmentId: updated.id,
+      reference: updated.reference,
+      patientName: updated.patientName,
+      patientEmail: updated.patientEmail,
+      patientPhone: updated.patientPhone,
+      doctorName: updated.doctor.name,
+      doctorSpecialty: updated.doctor.specialty,
+      serviceTitle: updated.service?.title ?? null,
+      appointmentDate: formatDateOnly(updated.appointmentDate),
+      startTime: updated.startTime,
+      endTime: updated.endTime,
+      status: updated.status,
+      patientNote: noteForPatient,
+      idempotencyKey: `APPOINTMENT_CANCELLED:${updated.id}:${updated.cancelledAt?.toISOString() ?? updated.updatedAt.toISOString()}`,
+    });
+    notificationQueued = result.queued;
   }
 
-  return serializeAdmin(updated);
+  return {
+    ...serializeAdmin(updated),
+    notificationQueued,
+  };
 };
 
 export const rescheduleAppointmentAdmin = async (
   id: string,
   appointmentDate: string,
   startTime: string,
+  patientNote?: string | null,
 ) => {
   if (!isValidDateString(appointmentDate)) {
     throw new AppointmentError("Invalid appointment date.");
@@ -272,6 +305,26 @@ export const rescheduleAppointmentAdmin = async (
     throw new AppointmentError(
       `Cannot reschedule an appointment with status ${existing.status}.`,
     );
+  }
+
+  const previous = {
+    appointmentDate: formatDateOnly(existing.appointmentDate),
+    startTime: existing.startTime,
+    endTime: existing.endTime,
+    doctorName: existing.doctor.name,
+    doctorSpecialty: existing.doctor.specialty,
+    serviceTitle: existing.service?.title ?? null,
+  };
+
+  // No-op reschedule to the same slot — skip email.
+  if (
+    previous.appointmentDate === appointmentDate &&
+    previous.startTime === startTime
+  ) {
+    return {
+      ...serializeAdmin(existing),
+      notificationQueued: false,
+    };
   }
 
   let endTime: string;
@@ -316,20 +369,34 @@ export const rescheduleAppointmentAdmin = async (
       });
     });
 
-    await notifyAppointmentEvent({
+    const result = await notifyAppointmentEvent({
       event: "RESCHEDULED",
+      appointmentId: updated.id,
       reference: updated.reference,
       patientName: updated.patientName,
       patientEmail: updated.patientEmail,
       patientPhone: updated.patientPhone,
       doctorName: updated.doctor.name,
+      doctorSpecialty: updated.doctor.specialty,
+      serviceTitle: updated.service?.title ?? null,
       appointmentDate: formatDateOnly(updated.appointmentDate),
       startTime: updated.startTime,
       endTime: updated.endTime,
       status: updated.status,
+      patientNote: patientNote?.trim() || null,
+      previousAppointmentDate: previous.appointmentDate,
+      previousStartTime: previous.startTime,
+      previousEndTime: previous.endTime,
+      previousDoctorName: previous.doctorName,
+      previousDoctorSpecialty: previous.doctorSpecialty,
+      previousServiceTitle: previous.serviceTitle,
+      idempotencyKey: `APPOINTMENT_RESCHEDULED:${updated.id}:${formatDateOnly(updated.appointmentDate)}:${updated.startTime}`,
     });
 
-    return serializeAdmin(updated);
+    return {
+      ...serializeAdmin(updated),
+      notificationQueued: result.queued,
+    };
   } catch (error) {
     if (error instanceof AppointmentError) throw error;
 

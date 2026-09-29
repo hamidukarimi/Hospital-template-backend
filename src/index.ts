@@ -38,6 +38,10 @@ import contactRoutes from "./routes/contact.routes.js";
 import appointmentRoutes from "./routes/appointment.routes.js";
 import adminAppointmentRoutes from "./routes/adminAppointmentRoutes.js";
 import adminDoctorScheduleRoutes from "./routes/adminDoctorScheduleRoutes.js";
+import {
+  startAppointmentEmailWorker,
+  stopAppointmentEmailWorker,
+} from "./email/appointmentEmailQueue.js";
 
 dotenv.config();
 
@@ -103,6 +107,17 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  startAppointmentEmailWorker();
 });
+
+const shutdown = () => {
+  stopAppointmentEmailWorker();
+  server.close(() => {
+    process.exit(0);
+  });
+};
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
