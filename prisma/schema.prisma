@@ -100,16 +100,16 @@ model SiteSettings {
 // ─────────────────────────────────────────────
 
 model ContactSubmission {
-  id         String   @id @default(uuid()) @db.Uuid
+  id         String  @id @default(uuid()) @db.Uuid
   name       String
   email      String
   phone      String?
-  department String   @default("General Inquiry")
+  department String  @default("General Inquiry")
   message    String
-  isRead     Boolean  @default(false)
+  isRead     Boolean @default(false)
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ─────────────────────────────────────────────
@@ -242,13 +242,13 @@ model About {
   badgeValue          String?
 
   // About page — hero
-  heroBadge         String?
-  heroTitle         String?
+  heroBadge          String?
+  heroTitle          String?
   heroTitleHighlight String?
-  heroSubtitle      String?
-  heroButtonText    String?
-  heroImage         String?
-  heroImageCaption  String?
+  heroSubtitle       String?
+  heroButtonText     String?
+  heroImage          String?
+  heroImageCaption   String?
 
   // About page — mission
   missionTitle       String?
@@ -396,15 +396,20 @@ model LabTest {
 // ─────────────────────────────────────────────
 
 model Doctor {
-  id          String  @id @default(uuid()) @db.Uuid
-  name        String
-  slug        String  @unique
-  specialty   String
-  credentials String?
-  description String?
-  image       String?
-  profileUrl  String?
-  category    String?
+  id                String  @id @default(uuid()) @db.Uuid
+  name              String
+  slug              String  @unique
+  specialty         String
+  credentials       String?
+  /// Short professional designation shown under the name (e.g. "Consultant Cardiologist")
+  professionalTitle String?
+  /// Patient-facing biography / overview body (existing field; reused intentionally)
+  description       String?
+  /// Short statement of the doctor's approach to patient care
+  carePhilosophy    String?
+  image             String?
+  profileUrl        String?
+  category          String?
 
   // Profile card stats (display strings, e.g. "15+", "10K+", "4.9/5")
   yearsExperience String?
@@ -417,11 +422,46 @@ model Doctor {
   // Expertise — [{ label, icon, className }]
   specialties Json?
 
+  // Clinical interests — [{ name, description? }]
+  clinicalInterests Json?
+
+  // Conditions treated — [{ name, description? }]
+  conditionsTreated Json?
+
+  // Procedures / treatments — [{ name, description? }]
+  procedures Json?
+
   // Education / training timeline — [{ year, title, institution }]
   education Json?
 
-  // Achievements — [{ label, icon }]
+  // Certifications / licenses — [{ name, issuer?, year? }]
+  certifications Json?
+
+  // Languages spoken with patients — [{ name }]
+  languages Json?
+
+  // Professional memberships — [{ name, role? }]
+  memberships Json?
+
+  // Hospital / institutional affiliations — [{ name, role? }]
+  affiliations Json?
+
+  // Achievements / awards — [{ label, icon }]
   achievements Json?
+
+  // Research interests — [{ name, description? }]
+  researchInterests Json?
+
+  // Publications — [{ title, year?, venue?, url? }]
+  publications Json?
+
+  // Teaching / academic experience — [{ title, institution?, year? }]
+  teachingExperience Json?
+
+  // Practice information (public, non-contact)
+  consultationType     String?
+  consultationLocation String?
+  acceptingNewPatients Boolean? @default(true)
 
   isActive  Boolean @default(true)
   sortOrder Int     @default(0)
